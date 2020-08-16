@@ -12,9 +12,9 @@ public class ParkingSlot {
     private boolean carParked;
     private Car car;
 
-    public ParkingSlot(String type, String id, boolean carParked) {
-        this.type = type;
+    public ParkingSlot(String id, String type, boolean carParked) {
         this.id = id;
+        this.type = type;
         this.carParked = carParked;
     }
 
@@ -52,8 +52,8 @@ public class ParkingSlot {
 
     public String toStringDebug() {
         return "ParkingSlot{" +
-                "type='" + type + '\'' +
                 ", id='" + id + '\'' +
+                "type='" + type + '\'' +
                 ", carParked='" + carParked + '\'' +
                 ", car='" + car + '\'' + '}';
     }

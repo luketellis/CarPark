@@ -11,13 +11,50 @@ import java.util.LinkedList;
 public class CarPark {
     private final LinkedList<ParkingSlot> carParkList;
 
+    private static int staffParkingSlots = 0;
+    private static int visitorParkingSlots = 0;
+
+
     public CarPark() {
         carParkList = new LinkedList<ParkingSlot>();
     }
 
-    public void addCarPark(int numOfSlots, String type) {
-        for(int i = 1; i <= numOfSlots; i++) {
-            carParkList.add(new ParkingSlot(type, type.toUpperCase().charAt(0) + String.format("%03d", i), false));
+    public void addCarParksByNumberAndType(int numOfSlots, String type) {
+        for(int i = 0; i < numOfSlots; i++) {
+            carParkList.add(new ParkingSlot( type.toUpperCase().charAt(0) + String.format("%03d", getNewParkingSlotIncrementBasedOnType(type)),
+                    type, false));
+            incrementParkingSlotNumberBasedOnType(type);
+        }
+
+        //todo remove debug print statements
+        System.out.println("staffParkingSlots: " + staffParkingSlots);
+        System.out.println("visitor parking slots: " + visitorParkingSlots);
+    }
+
+    public int getNewParkingSlotIncrementBasedOnType(String type) {
+        if (type.equalsIgnoreCase("staff")) {
+            return staffParkingSlots + 1;
+        }
+        else {
+            return visitorParkingSlots + 1;
+        }
+    }
+
+    public void incrementParkingSlotNumberBasedOnType(String type) {
+        if (type.equalsIgnoreCase("staff")) {
+            staffParkingSlots++;
+        }
+        else if (type.equalsIgnoreCase("visitor")) {
+            visitorParkingSlots++;
+        }
+    }
+
+    public void decrementParkingSlotNumberBasedOnType(String type) {
+        if (type.equalsIgnoreCase("staff")) {
+            staffParkingSlots--;
+        }
+        else if (type.equalsIgnoreCase("visitor")) {
+            visitorParkingSlots--;
         }
     }
 
