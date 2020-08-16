@@ -54,4 +54,16 @@ public class CarPark {
         }
     }
 
+    public void findCarByRegistrationNumber(String registrationNumber) {
+        String carRegistrationInformation = "Car with Registration Number '" + registrationNumber + "' ";
+        for (ParkingSlot parkingSlot : carParkList) {
+            //If parkingSlot has a car and the car's registration matches the requested registration
+            if (parkingSlot.getCar() != null && registrationNumber.equals(parkingSlot.getCar().getRegistrationNumber())) {
+                    System.out.println(carRegistrationInformation + "is currently parked in Parking Slot '" + parkingSlot.getId() + "'");
+                    System.out.println("The owner of the car is '" + parkingSlot.getCar().getOwner() + "'");
+                    return;
+            }
+        }
+        System.out.println(carRegistrationInformation + "is not currently parked in the Car Park");
+    }
 }

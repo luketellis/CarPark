@@ -85,15 +85,14 @@ public class Application {
     }
 
     protected static boolean isValidParkingSlotId(String potentialParkingSlot) {
-        return potentialParkingSlot.matches("^[A-Z][0-9]{3}$");
+        return potentialParkingSlot.matches("^[SV][0-9]{3}$");
     }
 
     protected static void retrieveInformationForParkingCar() throws IOException {
         System.out.println("Enter the name of the car owner that you wish to park");
         String carOwnerName = br.readLine();
 
-        System.out.println("Enter the car registration");
-        String potentialCarRegistration = br.readLine();
+        String potentialCarRegistration = receiveAndValidateCarRegistration();
 
         if (!isValidCarRegistration(potentialCarRegistration))
         {
@@ -119,6 +118,11 @@ public class Application {
         }
 
         carPark.parkCar(potentialParkingSlot, new Car(potentialCarRegistration, carOwnerName, isStaff));
+    }
+
+    public static String receiveAndValidateCarRegistration() throws IOException {
+        System.out.println("Enter the car registration");
+        return br.readLine();
     }
 
     public static boolean isValidParkingSlot(String potentialParkingSlot, boolean isStaff) {
@@ -147,6 +151,18 @@ public class Application {
         return true;
     }
 
+    protected static void retrieveInformationForFindingCar() throws IOException {
+        String potentialCarRegistration = receiveAndValidateCarRegistration();
+
+        if (!isValidCarRegistration(potentialCarRegistration))
+        {
+            System.out.println("Car Registration is invalid");
+            return;
+        }
+
+        carPark.findCarByRegistrationNumber(potentialCarRegistration);
+    }
+
     public static void displayMainMenu() {
         System.out.println("\n1: List all car slots");
         System.out.println("2: Park a car");
@@ -167,6 +183,7 @@ public class Application {
                 retrieveInformationForParkingCar();
                 break;
             case "3":
+                retrieveInformationForFindingCar();
                 break;
             case "4":
                 break;
