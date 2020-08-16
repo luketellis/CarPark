@@ -10,6 +10,7 @@ public class ParkingSlot {
     private String type;
     private String id;
     private boolean carParked;
+    private Car car;
 
     public ParkingSlot(String type, String id, boolean carParked) {
         this.type = type;
@@ -41,16 +42,25 @@ public class ParkingSlot {
         this.carParked = carParked;
     }
 
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
     public String toStringDebug() {
         return "ParkingSlot{" +
                 "type='" + type + '\'' +
                 ", id='" + id + '\'' +
-                ", carParked='" + carParked + '\'' + '}';
+                ", carParked='" + carParked + '\'' +
+                ", car='" + car + '\'' + '}';
     }
 
     @Override
     public String toString() {
-        String occupied = carParked ? "not occupied" : "occupied";
+        String occupied = carParked ? "occupied with " + car : "not occupied";
         return "SlotId is: '" + id + '\'' +
                 ", is for " + type +
                 ", and is " + occupied;

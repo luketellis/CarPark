@@ -62,8 +62,7 @@ public class Application {
     }
 
     public static int receiveAndValidateIntegerInput() throws IOException {
-        String potentialNumber = "";
-        potentialNumber = br.readLine();
+        String potentialNumber = br.readLine();
 
         while (potentialNumber == null || !isStringNumber(potentialNumber))
         {
@@ -81,6 +80,73 @@ public class Application {
         return potentialNumber.matches("-?(|[1-7]\\d*)");
     }
 
+    protected static boolean isValidCarRegistration(String potentialCarRegistration) {
+        return potentialCarRegistration.matches("^[A-Z][0-9]{5}$");
+    }
+
+    protected static boolean isValidParkingSlotId(String potentialParkingSlot) {
+        return potentialParkingSlot.matches("^[A-Z][0-9]{3}$");
+    }
+
+    protected static void retrieveInformationForParkingCar() throws IOException {
+        System.out.println("Enter the name of the car owner that you wish to park");
+        String carOwnerName = br.readLine();
+
+        System.out.println("Enter the car registration");
+        String potentialCarRegistration = br.readLine();
+
+        if (!isValidCarRegistration(potentialCarRegistration))
+        {
+            System.out.println("Car Registration is invalid");
+            return;
+        }
+
+        boolean isStaff = false;
+        System.out.println("Is the owner a staff member (yes/no)");
+        String staffAnswer = br.readLine();
+
+        if (staffAnswer.equals("yes") || staffAnswer.equals("y"))
+        {
+            isStaff = true;
+        }
+
+        System.out.println("Enter the Parking Slot Id");
+        String potentialParkingSlot = br.readLine();
+
+        if (!isValidParkingSlot(potentialParkingSlot, isStaff))
+        {
+            return;
+        }
+
+        carPark.parkCar(potentialParkingSlot, new Car(potentialCarRegistration, carOwnerName, isStaff));
+    }
+
+    public static boolean isValidParkingSlot(String potentialParkingSlot, boolean isStaff) {
+        //if parking slot id isn't a valid format or if the parking slot id isn't in the car park system
+        if (!isValidParkingSlotId(potentialParkingSlot) ||!carPark.isParkingSlotInList(potentialParkingSlot))
+        {
+            System.out.println("Parking Slot Id is invalid");
+            return false;
+        }
+
+        if (isStaff && potentialParkingSlot.charAt(0) != 'S')
+        {
+            System.out.println("Staff may only park in Staff Parking Slots");
+            return false;
+        }
+        else if (!isStaff && potentialParkingSlot.charAt(0) != 'V') {
+            System.out.println("Visitors may only park is Visitor Parking Slots");
+            return false;
+        }
+
+        if (carPark.isParkingSlotFull(potentialParkingSlot)) {
+            System.out.println("Parking Slot is already full");
+            return false;
+        }
+
+        return true;
+    }
+
     public static void displayMainMenu() {
         System.out.println("\n1: List all car slots");
         System.out.println("2: Park a car");
@@ -92,12 +158,13 @@ public class Application {
         System.out.println("Please select an option (1-7): ");
     }
 
-    private static void checkAndExecuteOption(String option) {
+    private static void checkAndExecuteOption(String option) throws IOException {
         switch (option) {
             case "1":
                 carPark.listCarParks();
                 break;
             case "2":
+                retrieveInformationForParkingCar();
                 break;
             case "3":
                 break;
