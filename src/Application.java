@@ -25,11 +25,11 @@ public class Application {
         System.out.println("Start to establish a car parking with slots for staff and visitors");
         System.out.println("Please enter the number of slots for staff: ");
         int staffSlots = receiveAndValidateIntegerInput();
-        carPark.addCarParksByNumberAndType(staffSlots, "staff");
+        carPark.addParkingSlotsByNumberAndType(staffSlots, "staff");
 
         System.out.println("Please enter the number of slots for visitors: ");
         int visitorSlots = receiveAndValidateIntegerInput();
-        carPark.addCarParksByNumberAndType(visitorSlots, "visitor");
+        carPark.addParkingSlotsByNumberAndType(visitorSlots, "visitor");
 
         System.out.println("The " + staffSlots + " slots for staff have been created successfully");
         System.out.println("The " + visitorSlots + " slots for visitors have been created successfully");
@@ -129,6 +129,11 @@ public class Application {
         return br.readLine();
     }
 
+    public static String receiveAndValidateParkingSlotId() throws IOException {
+        System.out.println("Enter the parking slot id");
+        return br.readLine();
+    }
+
     public static String receiveAndValidateParkingSlotTypeString() throws IOException {
         System.out.println("Is the parking slot for a staff member or visitor (staff/visitor)");
         return br.readLine();
@@ -181,7 +186,31 @@ public class Application {
             return;
         }
 
-        carPark.addCarParksByNumberAndType(1, potentialParkingSlotType);
+        carPark.addParkingSlotsByNumberAndType(1, potentialParkingSlotType);
+    }
+
+    protected static void retrieveInformationFoDeletingParkingSlot() throws IOException {
+        String potentialParkingSlotId = receiveAndValidateParkingSlotId();
+
+        if (!isValidParkingSlotId(potentialParkingSlotId))
+        {
+            System.out.println("Specified Parking Slot Id is invalid.");
+            return;
+        }
+
+        if (!carPark.isParkingSlotInList(potentialParkingSlotId))
+        {
+            System.out.println("Specified Parking Slot Id does not exist in system.");
+            return;
+        }
+
+        if (carPark.isParkingSlotOccupied(potentialParkingSlotId))
+        {
+            System.out.println("Parking Slot is occupied, cannot be removed");
+            return;
+        }
+
+        carPark.removeParkingSlotById(potentialParkingSlotId);
     }
 
     public static void displayMainMenu() {
@@ -189,7 +218,7 @@ public class Application {
         System.out.println("2: Park a car");
         System.out.println("3: Find a car");
         System.out.println("4: Add a car slot");
-        System.out.println("5: Delete a car slot by slotId");
+        System.out.println("5: Delete a parking slot by id");
         System.out.println("6: Remove a car by registration number");
         System.out.println("7: Exit\n");
         System.out.println("Please select an option (1-7): ");
@@ -210,6 +239,7 @@ public class Application {
                 retrieveInformationForAddingParkingSlot();
                 break;
             case "5":
+                retrieveInformationFoDeletingParkingSlot();
                 break;
             case "6":
                 break;

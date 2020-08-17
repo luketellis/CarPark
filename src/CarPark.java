@@ -19,7 +19,7 @@ public class CarPark {
         carParkList = new LinkedList<ParkingSlot>();
     }
 
-    public void addCarParksByNumberAndType(int numOfSlots, String type) {
+    public void addParkingSlotsByNumberAndType(int numOfSlots, String type) {
         for(int i = 0; i < numOfSlots; i++) {
             carParkList.add(new ParkingSlot( type.toUpperCase().charAt(0) + String.format("%03d", getNewParkingSlotIncrementBasedOnType(type)),
                     type, false));
@@ -29,6 +29,23 @@ public class CarPark {
         //todo remove debug print statements
         System.out.println("staffParkingSlots: " + staffParkingSlots);
         System.out.println("visitor parking slots: " + visitorParkingSlots);
+    }
+
+    public void removeParkingSlotById(String parkingSlotId) {
+        //If the specified ParkingSlot found by id has a carParked
+        carParkList.removeIf(parkingSlot -> parkingSlotId.equals(parkingSlot.getId()) && !parkingSlot.getCarParked());
+
+        //todo remove debug print statements
+        System.out.println("staffParkingSlots: " + staffParkingSlots);
+        System.out.println("visitor parking slots: " + visitorParkingSlots);
+    }
+
+    public boolean isParkingSlotInList(String slotId) {
+        for (ParkingSlot parkingSlot : carParkList) {
+            if (slotId.equals(parkingSlot.getId()))
+                return true;
+        }
+        return false;
     }
 
     public int getNewParkingSlotIncrementBasedOnType(String type) {
@@ -64,10 +81,12 @@ public class CarPark {
         }
     }
 
-    public boolean isParkingSlotInList(String slotId) {
+    public boolean isParkingSlotOccupied(String slotId) {
         for (ParkingSlot parkingSlot : carParkList) {
-            if (slotId.equals(parkingSlot.getId()))
-                return true;
+            //If the specified ParkingSlot found by id has a carParked
+            if (slotId.equals(parkingSlot.getId()) && parkingSlot.getCarParked()) {
+                    return true;
+                }
         }
         return false;
     }
