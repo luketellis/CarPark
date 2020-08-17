@@ -3,7 +3,7 @@
  * the Parking Spot System
  *
  * @author      Luke Tellis <6478611>
- * @version     1.0
+ * @version     1.1
  */
 
 public class ParkingSlot {
@@ -48,6 +48,11 @@ public class ParkingSlot {
 
     public void setCar(Car car) {
         this.car = car;
+    }
+
+    public void removeCar() {
+        this.setCar(null);
+        this.setCarParked(false);
     }
 
     public String toStringDebug() {

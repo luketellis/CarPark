@@ -5,7 +5,7 @@ import java.util.LinkedList;
  * Parking Slots for the Parking Spot System
  *
  * @author      Luke Tellis <6478611>
- * @version     1.0
+ * @version     1.1
  */
 
 public class CarPark {
@@ -118,6 +118,19 @@ public class CarPark {
                     System.out.println(carRegistrationInformation + "is currently parked in Parking Slot '" + parkingSlot.getId() + "'");
                     System.out.println("The owner of the car is '" + parkingSlot.getCar().getOwner() + "'");
                     return;
+            }
+        }
+        System.out.println(carRegistrationInformation + "is not currently parked in the Car Park");
+    }
+
+    public void removeCarByRegistrationNumber(String registrationNumber) {
+        String carRegistrationInformation = "Car with Registration Number '" + registrationNumber + "' ";
+        for (ParkingSlot parkingSlot : carParkList) {
+            //If parkingSlot has a car and the car's registration matches the requested registration
+            if (parkingSlot.getCar() != null && registrationNumber.equals(parkingSlot.getCar().getRegistrationNumber())) {
+                parkingSlot.removeCar();
+                System.out.println(carRegistrationInformation + "has been removed from '" + parkingSlot.getId() + "'");
+                return;
             }
         }
         System.out.println(carRegistrationInformation + "is not currently parked in the Car Park");

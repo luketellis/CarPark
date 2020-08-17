@@ -4,7 +4,7 @@
  * Parking Spot System
  *
  * @author      Luke Tellis <6478611>
- * @version     1.0
+ * @version     1.1
  */
 
 import java.io.BufferedReader;
@@ -213,6 +213,18 @@ public class Application {
         carPark.removeParkingSlotById(potentialParkingSlotId);
     }
 
+    protected static void retrieveInformationFoRemovingCarByRegistrationNumber() throws IOException {
+        String potentialCarRegistrationNumber = receiveAndValidateCarRegistration();
+
+        if (!isValidCarRegistration(potentialCarRegistrationNumber))
+        {
+            System.out.println("Specified Car Registration Number is invalid.");
+            return;
+        }
+
+        carPark.removeCarByRegistrationNumber(potentialCarRegistrationNumber);
+    }
+
     public static void displayMainMenu() {
         System.out.println("\n1: List all car slots");
         System.out.println("2: Park a car");
@@ -242,6 +254,7 @@ public class Application {
                 retrieveInformationFoDeletingParkingSlot();
                 break;
             case "6":
+                retrieveInformationFoRemovingCarByRegistrationNumber();
                 break;
             case "7":
                 System.out.println("Exiting Program");
