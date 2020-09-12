@@ -92,7 +92,7 @@ public class Application {
      * @return  boolean value if potentialNumber String is also an integer
      */
     protected static boolean isStringNumber(String potentialNumber) {
-        return potentialNumber.matches("\\d[0-4]*");
+        return potentialNumber.matches("^\\d{1,4}$");
     }
 
     /**
@@ -102,7 +102,7 @@ public class Application {
      * @return  boolean value if potentialNumber String is also a valid menu integer
      */
     protected static boolean isStringValidMenuNumber(String potentialNumber) {
-        return potentialNumber.matches("-?(|[1-7]\\d*)");
+        return potentialNumber.matches("^[1-7]$");
     }
 
     /**
