@@ -1,6 +1,7 @@
 package carpark.gui;
 
 import carpark.code.Application;
+import carpark.code.CarPark;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,18 +13,25 @@ public class FindCarGUI implements ActionListener {
     private JTextField carRegistrationFld;
 
 
-    private JButton findBtn, exitBtn;
-    private JFrame frame;
+    private JButton findBtn, cancelBtn;
+    private JFrame findCarFrame;
+    private JFrame mainMenuFrame;
 
-    public FindCarGUI() {
-        buildFrame2();
-        //makeMenuBar(frame);
+
+    CarPark carPark;
+
+    public FindCarGUI(CarPark carPark, JFrame mainMenuFrame) {
+        this.carPark = carPark;
+        this.mainMenuFrame = mainMenuFrame;
+
+        buildFrame();
+        makeMenuBar(findCarFrame);
     }
 
-    void buildFrame2()     {
-        frame= new JFrame("Find Parked Car");
-        frame.setSize(500,300);
-        frame.setLayout(null);
+    void buildFrame()     {
+        findCarFrame = new JFrame("Find Parked Car");
+        findCarFrame.setSize(500,300);
+        findCarFrame.setLayout(null);
 
         //Initialize find button and set bounds
         findBtn = new JButton("Find Car");
@@ -35,14 +43,22 @@ public class FindCarGUI implements ActionListener {
                 String errorText = "Car Registration is not of the required format";
 
                 if (!Application.isValidCarRegistration(carRegistrationFld.getText()))
-                    JOptionPane.showMessageDialog(frame, errorText);
+                    JOptionPane.showMessageDialog(findCarFrame, errorText);
                 }
 
         });
 
         //Initialize exit button and set bounds
-        exitBtn = new JButton("Exit");
-        exitBtn.setBounds(380, 90, 80, 30);
+        cancelBtn = new JButton("Cancel");
+        cancelBtn.setBounds(380, 90, 80, 30);
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
+                mainMenuFrame.setVisible(true);
+                findCarFrame.dispose();
+            }
+        });
 
         //Initialize label and set bounds
         findCarLabel = new JLabel("Enter Car Registration of Parked Car");
@@ -52,13 +68,13 @@ public class FindCarGUI implements ActionListener {
         carRegistrationFld.setBounds(50, 90, 80, 30);
 
         //Add UI elements to frame
-        frame.add(findCarLabel);
-        frame.add(carRegistrationFld);
-        frame.add(findBtn);
-        frame.add(exitBtn);
+        findCarFrame.add(findCarLabel);
+        findCarFrame.add(carRegistrationFld);
+        findCarFrame.add(findBtn);
+        findCarFrame.add(cancelBtn);
 
 
-        frame.setVisible(true);
+        findCarFrame.setVisible(true);
     }
 
 
@@ -77,9 +93,5 @@ public class FindCarGUI implements ActionListener {
         JMenuItem quitItem = new JMenuItem("Quit");
         fileMenu.add(quitItem);
         quitItem.addActionListener(this);
-    }
-
-    public static void main(String[] args) {
-        new FindCarGUI();
     }
 }

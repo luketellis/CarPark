@@ -1,17 +1,18 @@
 package carpark.code;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- * The carpark.code.CarPark class maintains a list of
- * Parking Slots for the carpark.code.CarPark System
+ * The CarPark class maintains a list of
+ * Parking Slots for the CarPark System
  *
  * @author      Luke Tellis <6478611>
  * @version     1.2
  */
 
 public class CarPark {
-    //List for maintaining a list of ParkingSlots for carpark.code.CarPark system
+    //List for maintaining a list of ParkingSlots for CarPark system
     public final LinkedList<ParkingSlot> carParkList;
 
     //Keeps track of staff and visitor parking slots, so that duplicate numbers are not added
@@ -19,7 +20,7 @@ public class CarPark {
     private static int visitorParkingSlots = 0;
 
     /**
-     * carpark.code.CarPark class constructor
+     * CarPark class constructor
      * Initialises a new carParkList when called for storing ParkingSlots
      */
     public CarPark() {
@@ -27,9 +28,9 @@ public class CarPark {
     }
 
     /**
-     * Adds new ParkingSlots into the carpark.code.CarPark list
+     * Adds new ParkingSlots into the CarPark list
      *
-     * @param numOfSlots Number of new parking slots to be added to carpark.code.Car Park
+     * @param numOfSlots Number of new parking slots to be added to Car Park
      * @param type       Type of Parking Slots to be added, either staff or visitor
      */
     public void addParkingSlotsByNumberAndType(int numOfSlots, String type) {
@@ -41,12 +42,12 @@ public class CarPark {
     }
 
     /**
-     * Removes a carpark.code.ParkingSlot by id if it exists
+     * Removes a ParkingSlot by id if it exists
      *
-     * @param parkingSlotId     Id of carpark.code.ParkingSlot Id to be removed
+     * @param parkingSlotId     Id of ParkingSlot Id to be removed
      */
     public void removeParkingSlotById(String parkingSlotId) {
-        //If the specified carpark.code.ParkingSlot found by id has a carParked
+        //If the specified ParkingSlot found by id has a carParked
         carParkList.removeIf(parkingSlot -> {
             boolean parkingSlotExisted = parkingSlotId.equals(parkingSlot.getId()) && !parkingSlot.getCarParked();
             if (parkingSlotExisted) {
@@ -57,10 +58,10 @@ public class CarPark {
     }
 
     /**
-     * Checks if a carpark.code.ParkingSlot exists by slotId
+     * Checks if a ParkingSlot exists by slotId
      *
-     * @param slotId Id of carpark.code.ParkingSlot Id to be checked
-     * @return       boolean referencing if carpark.code.ParkingSlot exists
+     * @param slotId Id of ParkingSlot Id to be checked
+     * @return       boolean referencing if ParkingSlot exists
      */
     public boolean isParkingSlotInList(String slotId) {
         for (ParkingSlot parkingSlot : carParkList) {
@@ -73,8 +74,8 @@ public class CarPark {
     /**
      * Returns the next valid new parking slot number based on type
      *
-     * @param type Type of carpark.code.ParkingSlot to be checked
-     * @return     Integer of the next unassigned carpark.code.ParkingSlot id by type
+     * @param type Type of ParkingSlot to be checked
+     * @return     Integer of the next unassigned ParkingSlot id by type
      */
     public int getNewParkingSlotIncrementBasedOnType(String type) {
         if (type.equalsIgnoreCase("staff")) {
@@ -88,7 +89,7 @@ public class CarPark {
     /**
      * Increments the parking slot numbers based on type
      *
-     * @param type     Type of carpark.code.ParkingSlot to be incremented, either staff or visitor
+     * @param type     Type of ParkingSlot to be incremented, either staff or visitor
      */
     public void incrementParkingSlotNumberBasedOnType(String type) {
         if (type.equalsIgnoreCase("staff")) {
@@ -102,7 +103,7 @@ public class CarPark {
     /**
      * Decrements the parking slot numbers based on type
      *
-     * @param type     Type of carpark.code.ParkingSlot to be decremented, either staff or visitor
+     * @param type     Type of ParkingSlot to be decremented, either staff or visitor
      */
     public void decrementParkingSlotNumberBasedOnType(String type) {
         if (type.equalsIgnoreCase("staff")) {
@@ -114,7 +115,7 @@ public class CarPark {
     }
 
     /**
-     * Lists the parking slots in the carpark.code.CarPark to the console
+     * Lists the parking slots in the CarPark to the console
      */
     public void listCarParks() {
         System.out.println("Current Parking Slots");
@@ -125,14 +126,33 @@ public class CarPark {
     }
 
     /**
+     * Returns a list of Parking Slot Id's
+     *
+     * @param parkingSlotType Type of parking slots to be returned
+     * @return       String[] Array containing parking slot id's
+     */
+    public String[] retrieveParkingSlotIdsByType(String parkingSlotType) {
+        ArrayList<String> ids = new ArrayList<String>();
+        for (ParkingSlot parkingSlot : carParkList) {
+            if (parkingSlot.getType().equals(parkingSlotType)) {
+                ids.add(parkingSlot.getId());
+            }
+        }
+
+        String[] idArray = new String[ids.size()];
+        idArray = ids.toArray(idArray);
+        return idArray;
+    }
+
+    /**
      * Checks if a parking slot is occupied
      *
-     * @param slotId Id of carpark.code.ParkingSlot to be checked
-     * @return       Boolean value representing if carpark.code.ParkingSlot if occupied
+     * @param slotId Id of ParkingSlot to be checked
+     * @return       Boolean value representing if ParkingSlot if occupied
      */
     public boolean isParkingSlotOccupied(String slotId) {
         for (ParkingSlot parkingSlot : carParkList) {
-            //If the specified carpark.code.ParkingSlot found by id has a carParked
+            //If the specified ParkingSlot found by id has a carParked
             if (slotId.equals(parkingSlot.getId()) && parkingSlot.getCarParked()) {
                     return true;
                 }
@@ -141,11 +161,11 @@ public class CarPark {
     }
 
     /**
-     * Parks a car in a parking slot by adding carpark.code.Car to carpark.code.ParkingSlot object and setting
+     * Parks a car in a parking slot by adding Car to ParkingSlot object and setting
      * carParked variable to true
      *
-     * @param slotId Id of carpark.code.ParkingSlot to be checked
-     * @param car    carpark.code.Car to be added to carpark.code.ParkingSlot
+     * @param slotId Id of ParkingSlot to be checked
+     * @param car    Car to be added to ParkingSlot
      */
     public void parkCar(String slotId, Car car) {
         for (ParkingSlot parkingSlot : carParkList) {
@@ -159,12 +179,12 @@ public class CarPark {
     }
 
     /**
-     * Checks if a carpark.code.Car with a particular registration number is in carpark.code.CarPark
+     * Checks if a Car with a particular registration number is in CarPark
      *
-     * @param registrationNumber    registration number of carpark.code.Car to be found
+     * @param registrationNumber    registration number of Car to be found
      */
     public void findCarByRegistrationNumber(String registrationNumber) {
-        String carRegistrationInformation = "carpark.code.Car with Registration Number '" + registrationNumber + "' ";
+        String carRegistrationInformation = "Car with Registration Number '" + registrationNumber + "' ";
 
         for (ParkingSlot parkingSlot : carParkList) {
             //If parkingSlot has a car and the car's registration matches the requested registration
@@ -175,16 +195,16 @@ public class CarPark {
             }
         }
 
-        System.out.println(carRegistrationInformation + "is not currently parked in the carpark.code.Car Park");
+        System.out.println(carRegistrationInformation + "is not currently parked in the Car Park");
     }
 
     /**
-     * Removes a carpark.code.Car a particular registration number from carpark.code.CarPark
+     * Removes a Car a particular registration number from CarPark
      *
-     * @param registrationNumber    registration number of carpark.code.Car to be removed
+     * @param registrationNumber    registration number of Car to be removed
      */
     public void removeCarByRegistrationNumber(String registrationNumber) {
-        String carRegistrationInformation = "carpark.code.Car with Registration Number '" + registrationNumber + "' ";
+        String carRegistrationInformation = "Car with Registration Number '" + registrationNumber + "' ";
 
         for (ParkingSlot parkingSlot : carParkList) {
             //If parkingSlot has a car and the car's registration matches the requested registration
@@ -195,13 +215,13 @@ public class CarPark {
             }
         }
 
-        System.out.println(carRegistrationInformation + "is not currently parked in the carpark.code.Car Park");
+        System.out.println(carRegistrationInformation + "is not currently parked in the Car Park");
     }
 
     /**
-     * Checks to see if a car is already parked in the carpark.code.Car Park system
+     * Checks to see if a car is already parked in the Car Park system
      *
-     * @param registrationNumber     registration number of carpark.code.Car to be checked
+     * @param registrationNumber     registration number of Car to be checked
      */
     public boolean isCarWithRegistrationAlreadyParked(String registrationNumber) {
             for (ParkingSlot parkingSlot : carParkList) {

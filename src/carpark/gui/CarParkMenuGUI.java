@@ -50,17 +50,17 @@ public class CarParkMenuGUI {
         parkCarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                mainMenuFrame.setVisible(false);
+                new ParkCarGUI(carPark, mainMenuFrame);
             }
         });
-
 
         findCarBtn = new JButton("Find Car");
         findCarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainMenuFrame.setVisible(false);
-                new FindCarGUI();
+                new FindCarGUI(carPark, mainMenuFrame);
             }
         });
 

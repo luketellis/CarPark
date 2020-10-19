@@ -1,8 +1,8 @@
 package carpark.code;
 
 /**
- * The carpark.code.Car class represents a Vehicle to be parked in
- * a Parking Spot System in the carpark.code.CarPark system
+ * The Car class represents a Vehicle to be parked in
+ * a Parking Spot System in the CarPark system
  *
  * @author Luke Tellis <6478611>
  * @version 1.0

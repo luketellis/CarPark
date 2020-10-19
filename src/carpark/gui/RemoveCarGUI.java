@@ -12,7 +12,7 @@ public class RemoveCarGUI implements ActionListener {
     private JTextField carRegistrationFld;
 
 
-    private JButton removeBtn, exitBtn;
+    private JButton removeBtn, cancelBtn;
     private JFrame frame;
 
     public RemoveCarGUI() {
@@ -41,8 +41,16 @@ public class RemoveCarGUI implements ActionListener {
         });
 
         //Initialize exit button and set bounds
-        exitBtn = new JButton("Exit");
-        exitBtn.setBounds(380, 90, 80, 30);
+        cancelBtn = new JButton("Cancel");
+        cancelBtn.setBounds(380, 90, 80, 30);
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
+/*                mainMenuFrame.setVisible(true);
+                parkCarFrame.dispose();*/
+            }
+        });
 
         //Initialize label and set bounds
         carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car");
@@ -55,7 +63,7 @@ public class RemoveCarGUI implements ActionListener {
         frame.add(carRegistrationLabel);
         frame.add(carRegistrationFld);
         frame.add(removeBtn);
-        frame.add(exitBtn);
+        frame.add(cancelBtn);
 
 
         frame.setVisible(true);

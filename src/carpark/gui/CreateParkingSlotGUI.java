@@ -15,7 +15,7 @@ public class CreateParkingSlotGUI implements ActionListener {
 
     CarPark carPark;
 
-    private JButton createBtn, exitBtn;
+    private JButton createBtn, cancelBtn;
     private JFrame createParkingSlotFrame;
     private JFrame mainMenuFrame;
 
@@ -23,11 +23,11 @@ public class CreateParkingSlotGUI implements ActionListener {
         this.carPark = carPark;
         this.mainMenuFrame = mainMenuFrame;
 
-        buildFrame2();
-        //makeMenuBar(frame);
+        buildFrame();
+        makeMenuBar(createParkingSlotFrame);
     }
 
-    void buildFrame2()     {
+    void buildFrame()     {
         createParkingSlotFrame = new JFrame("Add New Parking Slot");
         createParkingSlotFrame.setSize(500,300);
         createParkingSlotFrame.setLayout(null);
@@ -66,8 +66,8 @@ public class CreateParkingSlotGUI implements ActionListener {
         });
 
         // Initialization of object of "JButton" class.
-        exitBtn = new JButton("Exit");
-        exitBtn.addActionListener(new ActionListener() {
+        cancelBtn = new JButton("Cancel");
+        cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
@@ -90,7 +90,7 @@ public class CreateParkingSlotGUI implements ActionListener {
         visitorTypeRadioBtn.setText("Visitor");
 
         // Setting Bounds of JLabel "L2".
-        parkingSlotTypeLabel.setBounds(50, 50, 120, 50);
+        parkingSlotTypeLabel.setBounds(30, 30, 120, 50);
 
         // Setting Bounds of "jRadioButton2".
         staffTypeRadioBtn.setBounds(250, 30, 120, 50);
@@ -101,13 +101,13 @@ public class CreateParkingSlotGUI implements ActionListener {
         // Setting Bounds of "jButton".
         createBtn.setBounds(250, 90, 80, 30);
 
-        exitBtn.setBounds(380, 90, 80, 30);
+        cancelBtn.setBounds(380, 90, 80, 30);
 
         // Adding "jButton" on JFrame.
         createParkingSlotFrame.add(createBtn);
 
         // Adding "jButton" on JFrame.
-        createParkingSlotFrame.add(exitBtn);
+        createParkingSlotFrame.add(cancelBtn);
 
         // Adding "jRadioButton2" on JFrame.
         createParkingSlotFrame.add(staffTypeRadioBtn);
