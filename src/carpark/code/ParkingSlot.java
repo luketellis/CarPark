@@ -1,6 +1,8 @@
+package carpark.code;
+
 /**
- * The ParkingSlot class represents a Parking Slot in
- * the CarPark System
+ * The carpark.code.ParkingSlot class represents a Parking Slot in
+ * the carpark.code.CarPark System
  *
  * @author      Luke Tellis <6478611>
  * @version     1.1
@@ -13,11 +15,11 @@ public class ParkingSlot {
     private String type;
     //keeps track of if a car is parked, true if a car currently resides
     private boolean carParked;
-    //The Car object, if a car is currently occupying the parking slot
+    //The carpark.code.Car object, if a car is currently occupying the parking slot
     private Car car;
 
     /**
-     * ParkingSlot class constructor
+     * carpark.code.ParkingSlot class constructor
      *
      * @param id The unique identifier of the parking slot
      * @param type Whether the parking slot is for staff or visitors
@@ -72,9 +74,9 @@ public class ParkingSlot {
     }
 
     /**
-     * Returns a String object that is a concatenation of ParkingSlot details that can be printed to console.
+     * Returns a String object that is a concatenation of carpark.code.ParkingSlot details that can be printed to console.
      *
-     * @return ParkingSlot details String
+     * @return carpark.code.ParkingSlot details String
      */
     @Override
     public String toString() {

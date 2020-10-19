@@ -1,4 +1,4 @@
-/**
+package carpark.code; /**
  * The Application class is the console interface
  * that handles all input and output for the
  * Parking Spot System
@@ -91,7 +91,7 @@ public class Application {
      * @param   potentialNumber   String that represents a potential number
      * @return  boolean value if potentialNumber String is also an integer
      */
-    protected static boolean isStringNumber(String potentialNumber) {
+    public static boolean isStringNumber(String potentialNumber) {
         return potentialNumber.matches("^\\d{1,4}$");
     }
 
@@ -111,7 +111,7 @@ public class Application {
      * @param   potentialCarRegistration   String that represents a potential number
      * @return  boolean value if potentialCarRegistration String is valid car registration
      */
-    protected static boolean isValidCarRegistration(String potentialCarRegistration) {
+    public static boolean isValidCarRegistration(String potentialCarRegistration) {
         return potentialCarRegistration.matches("^[A-Z][0-9]{5}$");
     }
 
@@ -130,7 +130,7 @@ public class Application {
      *
      * @return Boolean representing if parkingSlotId is in correct format
      */
-    protected static boolean isValidParkingSlotId(String potentialParkingSlot) {
+    public static boolean isValidParkingSlotId(String potentialParkingSlot) {
         return potentialParkingSlot.matches("^[SV][0-9]{3}$");
     }
 
