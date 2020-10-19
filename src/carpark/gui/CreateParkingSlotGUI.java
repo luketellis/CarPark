@@ -1,28 +1,36 @@
 package carpark.gui;
 
+import carpark.code.CarPark;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class AddParkingSlotGUI implements ActionListener {
+public class CreateParkingSlotGUI implements ActionListener {
     private JLabel parkingSlotTypeLabel;
     ButtonGroup parkingSlotTypeGroup;
     JRadioButton staffTypeRadioBtn;
     JRadioButton visitorTypeRadioBtn;
 
-    private JButton createBtn, exitBtn;
-    private JFrame frame;
+    CarPark carPark;
 
-    public AddParkingSlotGUI() {
+    private JButton createBtn, exitBtn;
+    private JFrame createParkingSlotFrame;
+    private JFrame mainMenuFrame;
+
+    public CreateParkingSlotGUI(CarPark carPark, JFrame mainMenuFrame) {
+        this.carPark = carPark;
+        this.mainMenuFrame = mainMenuFrame;
+
         buildFrame2();
         //makeMenuBar(frame);
     }
 
     void buildFrame2()     {
-        frame= new JFrame("Add New Parking Slot");
-        frame.setSize(500,300);
-        frame.setLayout(null);
+        createParkingSlotFrame = new JFrame("Add New Parking Slot");
+        createParkingSlotFrame.setSize(500,300);
+        createParkingSlotFrame.setLayout(null);
 
         // Initialization of object of "JRadioButton" class.
         staffTypeRadioBtn = new JRadioButton();
@@ -38,15 +46,18 @@ public class AddParkingSlotGUI implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 String selectedText = "Please select radio button";
                 if (staffTypeRadioBtn.isSelected()) {
-                    JOptionPane.showMessageDialog(frame, "A new Parking Slot of type 'Staff' has been added");
+                    carPark.addParkingSlotsByNumberAndType(1, "staff");
+
+                    JOptionPane.showMessageDialog(createParkingSlotFrame, "A new Parking Slot of type 'Staff' has been added\n" + carPark.carParkList.size());
                 }
 
                 else if (visitorTypeRadioBtn.isSelected()) {
-                    JOptionPane.showMessageDialog(frame, "A new Parking Slot of type 'Visitor' has been added");
+                    carPark.addParkingSlotsByNumberAndType(1, "visitor");
+                    JOptionPane.showMessageDialog(createParkingSlotFrame, "A new Parking Slot of type 'Visitor' has been added");
                 }
 
                 else {
-                    JOptionPane.showMessageDialog(frame, "Please select a radio button");
+                    JOptionPane.showMessageDialog(createParkingSlotFrame, "Please select a radio button");
                 }
 
                 /*frame.dispose();
@@ -56,6 +67,14 @@ public class AddParkingSlotGUI implements ActionListener {
 
         // Initialization of object of "JButton" class.
         exitBtn = new JButton("Exit");
+        exitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
+                mainMenuFrame.setVisible(true);
+                createParkingSlotFrame.dispose();
+            }
+        });
 
         // Initialization of object of "ButtonGroup" class.
         parkingSlotTypeGroup = new ButtonGroup();
@@ -85,26 +104,26 @@ public class AddParkingSlotGUI implements ActionListener {
         exitBtn.setBounds(380, 90, 80, 30);
 
         // Adding "jButton" on JFrame.
-        frame.add(createBtn);
+        createParkingSlotFrame.add(createBtn);
 
         // Adding "jButton" on JFrame.
-        frame.add(exitBtn);
+        createParkingSlotFrame.add(exitBtn);
 
         // Adding "jRadioButton2" on JFrame.
-        frame.add(staffTypeRadioBtn);
+        createParkingSlotFrame.add(staffTypeRadioBtn);
 
         // Adding "jRadioButton4" on JFrame.
-        frame.add(visitorTypeRadioBtn);
+        createParkingSlotFrame.add(visitorTypeRadioBtn);
 
         // Adding JLabel "parkingSlotTypeLabel" on JFrame.
-        frame.add(parkingSlotTypeLabel);
+        createParkingSlotFrame.add(parkingSlotTypeLabel);
 
 
         // Adding "jRadioButton1" and "jRadioButton3" in a Button Group "G2".
         parkingSlotTypeGroup.add(staffTypeRadioBtn);
         parkingSlotTypeGroup.add(visitorTypeRadioBtn);
 
-        frame.setVisible(true);
+        createParkingSlotFrame.setVisible(true);
     }
 
 
@@ -123,9 +142,5 @@ public class AddParkingSlotGUI implements ActionListener {
         JMenuItem quitItem = new JMenuItem("Quit");
         fileMenu.add(quitItem);
         quitItem.addActionListener(this);
-    }
-
-    public static void main(String[] args) {
-        new AddParkingSlotGUI();
     }
 }

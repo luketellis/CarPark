@@ -31,8 +31,8 @@ public class StartMenuGUI implements ActionListener {
 
         staffLabel = new JLabel("Staff");
         visitorLabel = new JLabel("Visitors");
-        staffParksFld = new JTextField("3");
-        visitorsParksFld = new JTextField("5");
+        staffParksFld = new JTextField("1");
+        visitorsParksFld = new JTextField("1");
         startBtn = new JButton("Create Car Park");
         exitBtn = new JButton("Exit");
 

@@ -4,15 +4,21 @@ import carpark.code.CarPark;
 import carpark.code.ParkingSlot;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 
 public class CarParkMenuGUI {
     private final JButton parkCarBtn, findCarBtn, createParkBtn, deleteParkBtn, removeCarBtn, exitBtn;
 
-    private JFrame frame;
+    private JFrame mainMenuFrame;
+
+    static JTable parkingSlotTable;
+    //Table Column Names
+    String[] columnNames = {"Parking Slot Id", "Type", "Car"};
+    DefaultTableModel model;
+    JScrollPane sp;
 
     CarPark carPark;
 
@@ -20,21 +26,40 @@ public class CarParkMenuGUI {
     public CarParkMenuGUI(int staffSpots, int visitorSpots) {
         makeFrame();
 
+        mainMenuFrame.addComponentListener(new ComponentAdapter() {
+            public void componentShown(ComponentEvent e) {
+                model = new DefaultTableModel(createTableData(), columnNames) {
+
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+
+                parkingSlotTable.setModel(model);
+                model.fireTableStructureChanged();
+            }
+        });
 
         carPark = new CarPark();
         carPark.addParkingSlotsByNumberAndType(staffSpots, "staff");
-
         carPark.addParkingSlotsByNumberAndType(visitorSpots, "visitor");
 
 
         parkCarBtn = new JButton("Park Car");
+        parkCarBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
 
         findCarBtn = new JButton("Find Car");
         findCarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
+                mainMenuFrame.setVisible(false);
                 new FindCarGUI();
             }
         });
@@ -44,8 +69,8 @@ public class CarParkMenuGUI {
         createParkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                new AddParkingSlotGUI();
+                mainMenuFrame.setVisible(false);
+                new CreateParkingSlotGUI(carPark, mainMenuFrame);
             }
         });
 
@@ -54,7 +79,7 @@ public class CarParkMenuGUI {
         deleteParkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
+                mainMenuFrame.setVisible(false);
                 new DeleteParkingSlotGUI();
             }
         });
@@ -64,7 +89,7 @@ public class CarParkMenuGUI {
         removeCarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
+                mainMenuFrame.setVisible(false);
                 new RemoveCarGUI();
             }
         });
@@ -75,57 +100,68 @@ public class CarParkMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
-                frame.dispose();
+                mainMenuFrame.dispose();
                 System.exit(0);
             }
         });
 
-        frame.add(parkCarBtn);
-        frame.add(findCarBtn);
-        frame.add(createParkBtn);
-        frame.add(deleteParkBtn);
-        frame.add(removeCarBtn);
-        frame.add(exitBtn);
+        mainMenuFrame.add(parkCarBtn);
+        mainMenuFrame.add(findCarBtn);
+        mainMenuFrame.add(createParkBtn);
+        mainMenuFrame.add(deleteParkBtn);
+        mainMenuFrame.add(removeCarBtn);
+        mainMenuFrame.add(exitBtn);
 
 
-        JTable table = createTable();
-        JScrollPane sp = new JScrollPane(table);
-        frame.add(sp);
+        parkingSlotTable = createTable();
 
-        frame.setLayout(new FlowLayout());
-        frame.setSize(800,800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        parkingSlotTable.setBounds(30, 40, 250, 500);
+
+        sp = new JScrollPane(parkingSlotTable);
+        mainMenuFrame.add(sp);
+
+        mainMenuFrame.setLayout(new FlowLayout());
+        mainMenuFrame.setSize(800,800);
+        mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private JTable createTable() {
         // Data to be displayed in the JTable
+        Object[][] data = createTableData();
 
-        Object[][] object = new Object[carPark.carParkList.size()][3];
+
+        model = new DefaultTableModel(data, columnNames) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+
+        return parkingSlotTable = new JTable(model);
+    }
+
+    private Object[][] createTableData()   {
+        Object[][] data = new Object[carPark.carParkList.size()][3];
         int i = 0;
         if (carPark.carParkList.size() != 0) {
             for (ParkingSlot slot : carPark.carParkList) {
-                object[i][0] = slot.getId();
-                object[i][1] = slot.getType();
-                object[i][2] = slot.getCar();
+                data[i][0] = slot.getId();
+                data[i][1] = slot.getType();
+                data[i][2] = slot.getCar();
                 i++;
             }
         }
 
-        // Column Names
-        String[] columnNames = {"Parking Slot Id", "Type", "Car"};
-
-        JTable j = new JTable(object, columnNames);
-
-        j.setBounds(30, 40, 200, 300);
-
-        return j;
+        return data;
     }
 
     private void makeFrame() {
-        frame = new JFrame("Car Park");
-        makeMenuBar(frame);
-        frame.setVisible(true);
-        frame.pack();
+        mainMenuFrame = new JFrame("Car Park");
+        makeMenuBar(mainMenuFrame);
+        mainMenuFrame.setVisible(true);
+        mainMenuFrame.pack();
     }
 
     void makeMenuBar(JFrame frame) {
