@@ -1,8 +1,10 @@
 package carpark.gui;
 
 import carpark.code.Application;
+import carpark.code.CarPark;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,17 +15,24 @@ public class RemoveCarGUI implements ActionListener {
 
 
     private JButton removeBtn, cancelBtn;
-    private JFrame frame;
+    private JFrame removeCarFrame;
 
-    public RemoveCarGUI() {
-        buildFrame2();
-        makeMenuBar(frame);
+    private CarPark carPark;
+    private Frame mainMenuFrame;
+    private JComboBox carRegistrationBox;
+
+    public RemoveCarGUI(CarPark carPark, JFrame mainMenuFrame) {
+        this.carPark = carPark;
+        this.mainMenuFrame = mainMenuFrame;
+
+        buildFrame();
+        makeMenuBar(removeCarFrame);
     }
 
-    void buildFrame2()     {
-        frame= new JFrame("Remove Car from Parking Slot");
-        frame.setSize(500,300);
-        frame.setLayout(null);
+    void buildFrame() {
+        removeCarFrame = new JFrame("Remove Car from Parking Slot");
+        removeCarFrame.setSize(500, 300);
+        removeCarFrame.setLayout(null);
 
         //Initialize find button and set bounds
         removeBtn = new JButton("Remove Car");
@@ -32,11 +41,28 @@ public class RemoveCarGUI implements ActionListener {
         removeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String errorText = "Car Registration is not of the required format";
-
-                if (!Application.isValidCarRegistration(carRegistrationFld.getText()))
-                    JOptionPane.showMessageDialog(frame, errorText);
+                if (carRegistrationBox.getSelectedItem() == null)
+                {
+                    JOptionPane.showMessageDialog(removeCarFrame, "Please select a car registration number");
+                    return;
                 }
+
+                String carRegistrationNumber = carRegistrationBox.getSelectedItem().toString();
+
+
+                String message = carRegistrationNumber + " has been removed from Car Park";
+                carPark.removeCarByRegistrationNumber(carRegistrationNumber);
+
+                    JOptionPane.showMessageDialog(removeCarFrame, message);
+                    carRegistrationBox.removeItem(carRegistrationNumber);
+
+
+
+/*                String errorText = "Car Registration is not of the required format";
+
+                if (!Application.isValidCarRegistration(carRegistrationBox.getSelectedItem().toString()))
+                    JOptionPane.showMessageDialog(removeCarFrame, errorText);*/
+            }
 
         });
 
@@ -46,9 +72,8 @@ public class RemoveCarGUI implements ActionListener {
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
-/*                mainMenuFrame.setVisible(true);
-                parkCarFrame.dispose();*/
+                mainMenuFrame.setVisible(true);
+                removeCarFrame.dispose();
             }
         });
 
@@ -56,17 +81,22 @@ public class RemoveCarGUI implements ActionListener {
         carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car");
         carRegistrationLabel.setBounds(50, 50, 250, 50);
 
-        carRegistrationFld = new JTextField();
-        carRegistrationFld.setBounds(50, 90, 80, 30);
+/*      carRegistrationFld = new JTextField();
+        carRegistrationFld.setBounds(50, 90, 80, 30);*/
 
+        String[] carRegistrations = carPark.retrieveCarRegistrations();
+        carRegistrationBox = new JComboBox(carRegistrations);
+        carRegistrationBox.setBounds(50, 90, 80, 30);
+
+        removeCarFrame.add(carRegistrationBox);
         //Add UI elements to frame
-        frame.add(carRegistrationLabel);
-        frame.add(carRegistrationFld);
-        frame.add(removeBtn);
-        frame.add(cancelBtn);
+        removeCarFrame.add(carRegistrationLabel);
+        /*        removeCarFrame.add(carRegistrationFld);*/
+        removeCarFrame.add(removeBtn);
+        removeCarFrame.add(cancelBtn);
 
 
-        frame.setVisible(true);
+        removeCarFrame.setVisible(true);
     }
 
 
@@ -85,9 +115,5 @@ public class RemoveCarGUI implements ActionListener {
         JMenuItem quitItem = new JMenuItem("Quit");
         fileMenu.add(quitItem);
         quitItem.addActionListener(this);
-    }
-
-    public static void main(String[] args) {
-        new RemoveCarGUI();
     }
 }

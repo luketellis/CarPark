@@ -76,16 +76,16 @@ public class ParkCarGUI implements ActionListener {
                 }
 
                 carPark.parkCar(selectedParkingSlot, new Car(potentialCarRegistration, carOwnerName, isStaff));
+                String message = "Parking Slot '" + selectedParkingSlot + "' is now occupied by Car with registration '" + potentialCarRegistration + "'";
+                JOptionPane.showMessageDialog(parkCarFrame, message);
 
             }
         });
 
-        // Initialization of object of "JButton" class.
         cancelBtn = new JButton("Cancel");
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
                 mainMenuFrame.setVisible(true);
                 parkCarFrame.dispose();
             }
@@ -94,6 +94,10 @@ public class ParkCarGUI implements ActionListener {
         //Setting Bounds of "buttons".
         parkBtn.setBounds(250, 200, 80, 30);
         cancelBtn.setBounds(380, 200, 80, 30);
+
+        String[] parkingSlotIds = carPark.retrieveParkingSlotIdsByType("staff");
+        parkingSlotBox = new JComboBox(parkingSlotIds);
+        parkingSlotBox.setBounds(380, 80, 80, 30);
 
         // Initialization of object of "ButtonGroup" class.
         staffVisitorGroup = new ButtonGroup();
@@ -104,9 +108,23 @@ public class ParkCarGUI implements ActionListener {
 
         // Initialization of object of "JRadioButton" class.
         staffTypeRadioBtn = new JRadioButton("Staff", true);
+        staffTypeRadioBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultComboBoxModel model = new DefaultComboBoxModel(carPark.retrieveParkingSlotIdsByType("staff"));
+                parkingSlotBox.setModel(model);
+            }
+        });
 
         // Initialization of object of "JRadioButton" class.
         visitorTypeRadioBtn = new JRadioButton("Visitor");
+        visitorTypeRadioBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultComboBoxModel model = new DefaultComboBoxModel(carPark.retrieveParkingSlotIdsByType("visitor"));
+                parkingSlotBox.setModel(model);
+            }
+        });
 
 
         // Setting Bounds of JLabel "L2".
@@ -131,18 +149,7 @@ public class ParkCarGUI implements ActionListener {
         carOwnerNameFld = new JTextField();
         carOwnerNameFld.setBounds(50, 140, 80, 30);
 
-        String[] parkingSlotIds = carPark.retrieveParkingSlotIdsByType("visitor");
 
-        //Create the combo box, select item at index 4.
-        //Indices start at 0, so 4 specifies the pig.
-        parkingSlotBox = new JComboBox(parkingSlotIds);
-        parkingSlotBox.setBounds(380, 80, 80, 30);
-        parkingSlotBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
 
         parkCarFrame.add(parkingSlotBox);
 

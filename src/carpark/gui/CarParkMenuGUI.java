@@ -90,7 +90,7 @@ public class CarParkMenuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainMenuFrame.setVisible(false);
-                new RemoveCarGUI();
+                new RemoveCarGUI(carPark, mainMenuFrame);
             }
         });
 

@@ -233,4 +233,24 @@ public class CarPark {
 
             return false;
     }
+
+    /**
+     * Returns a list of Car Registrations
+     *
+     * @return       String[] String array containing all parked car registrations
+     */
+    public String[] retrieveCarRegistrations() {
+        ArrayList<String> carRegistrations = new ArrayList<String>();
+
+        for (ParkingSlot parkingSlot : carParkList) {
+            //If parkingSlot has a car and the car's registration matches the requested registration
+            if (parkingSlot.getCar() != null) {
+                carRegistrations.add(parkingSlot.getCar().getRegistrationNumber());
+            }
+        }
+
+        String[] registrationsArray = new String[carRegistrations.size()];
+        registrationsArray = carRegistrations.toArray(registrationsArray);
+        return registrationsArray;
+    }
 }
