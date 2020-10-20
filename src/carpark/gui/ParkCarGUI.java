@@ -10,19 +10,19 @@ import java.awt.event.ActionListener;
 
 
 public class ParkCarGUI implements ActionListener {
-    private JLabel parkingSlotTypeLabel;
-    ButtonGroup staffVisitorGroup;
-    JRadioButton staffTypeRadioBtn;
-    JRadioButton visitorTypeRadioBtn;
-    JComboBox parkingSlotBox;
+    private ButtonGroup staffVisitorGroup;
+    private JRadioButton staffTypeRadioBtn;
+    private JRadioButton visitorTypeRadioBtn;
 
-    CarPark carPark;
-
+    private JComboBox parkingSlotBox;
     private JButton parkBtn, cancelBtn;
     private JLabel carOwnerNameLabel, carRegistrationLabel;
     private JTextField carOwnerNameFld, carRegistrationFld;
+
     private JFrame parkCarFrame;
     private JFrame mainMenuFrame;
+
+    private CarPark carPark;
 
     public ParkCarGUI(CarPark carPark, JFrame mainMenuFrame) {
         this.carPark = carPark;
@@ -43,19 +43,15 @@ public class ParkCarGUI implements ActionListener {
         parkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String parkingSlotType = "";
                 Boolean isStaff = true;
 
                 if (staffTypeRadioBtn.isSelected()) {
-                    parkingSlotType = "staff";
                 } else if (visitorTypeRadioBtn.isSelected()) {
-                    parkingSlotType = "visitor";
                     isStaff = false;
                 } else {
                     JOptionPane.showMessageDialog(parkCarFrame, "Please select a parking slot type radio button");
                     return;
                 }
-
 
                 String potentialCarRegistration = carRegistrationFld.getText();
                 if (!Application.isValidCarRegistration(potentialCarRegistration)) {
@@ -103,7 +99,7 @@ public class ParkCarGUI implements ActionListener {
         staffVisitorGroup = new ButtonGroup();
 
         // Initialization of object of " JLabel" class.
-        parkingSlotTypeLabel = new JLabel("Staff/Visitor");
+        JLabel parkingSlotTypeLabel = new JLabel("Staff/Visitor");
 
 
         // Initialization of object of "JRadioButton" class.
