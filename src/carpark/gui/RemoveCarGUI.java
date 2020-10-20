@@ -1,6 +1,5 @@
 package carpark.gui;
 
-import carpark.code.Application;
 import carpark.code.CarPark;
 
 import javax.swing.*;
@@ -48,20 +47,11 @@ public class RemoveCarGUI implements ActionListener {
                 }
 
                 String carRegistrationNumber = carRegistrationBox.getSelectedItem().toString();
-
-
                 String message = carRegistrationNumber + " has been removed from Car Park";
+
                 carPark.removeCarByRegistrationNumber(carRegistrationNumber);
-
-                    JOptionPane.showMessageDialog(removeCarFrame, message);
-                    carRegistrationBox.removeItem(carRegistrationNumber);
-
-
-
-/*                String errorText = "Car Registration is not of the required format";
-
-                if (!Application.isValidCarRegistration(carRegistrationBox.getSelectedItem().toString()))
-                    JOptionPane.showMessageDialog(removeCarFrame, errorText);*/
+                JOptionPane.showMessageDialog(removeCarFrame, message);
+                carRegistrationBox.removeItem(carRegistrationNumber);
             }
 
         });
@@ -91,14 +81,11 @@ public class RemoveCarGUI implements ActionListener {
         removeCarFrame.add(carRegistrationBox);
         //Add UI elements to frame
         removeCarFrame.add(carRegistrationLabel);
-        /*        removeCarFrame.add(carRegistrationFld);*/
         removeCarFrame.add(removeBtn);
         removeCarFrame.add(cancelBtn);
 
-
         removeCarFrame.setVisible(true);
     }
-
 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();

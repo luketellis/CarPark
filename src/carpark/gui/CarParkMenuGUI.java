@@ -11,11 +11,9 @@ import java.awt.event.*;
 
 public class CarParkMenuGUI {
     private final JButton parkCarBtn, findCarBtn, createParkBtn, deleteParkBtn, removeCarBtn, exitBtn;
-
+    static JTable parkingSlotTable;
     private JFrame mainMenuFrame;
 
-    static JTable parkingSlotTable;
-    //Table Column Names
     String[] columnNames = {"Parking Slot Id", "Type", "Car"};
     DefaultTableModel model;
     JScrollPane sp;
@@ -90,12 +88,10 @@ public class CarParkMenuGUI {
             }
         });
 
-
         exitBtn = new JButton("Exit");
         exitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
                 mainMenuFrame.dispose();
                 System.exit(0);
             }
@@ -108,9 +104,7 @@ public class CarParkMenuGUI {
         mainMenuFrame.add(removeCarBtn);
         mainMenuFrame.add(exitBtn);
 
-
         parkingSlotTable = createTable();
-
         parkingSlotTable.setBounds(30, 40, 250, 500);
 
         sp = new JScrollPane(parkingSlotTable);
@@ -122,7 +116,7 @@ public class CarParkMenuGUI {
     }
 
     private JTable createTable() {
-        // Data to be displayed in the JTable
+        //Create data to be set in table
         Object[][] data = createTableData();
 
         //declare new DefaultTableModel and set cells to uneditable

@@ -14,13 +14,11 @@ public class FindCarGUI implements ActionListener {
 
     private JComboBox carComboBox;
 
-
     private JButton findBtn, cancelBtn;
     private JFrame findCarFrame;
     private JFrame mainMenuFrame;
 
-
-    CarPark carPark;
+    private CarPark carPark;
 
     public FindCarGUI(CarPark carPark, JFrame mainMenuFrame) {
         this.carPark = carPark;
@@ -54,7 +52,6 @@ public class FindCarGUI implements ActionListener {
 
                 String carRegistrationNumber = carComboBox.getSelectedItem().toString();
 
-
                 for (ParkingSlot parkingSlot : carPark.carParkList) {
                     //If parkingSlot has a car and the car's registration matches the requested registration
                     if (parkingSlot.getCar() != null && carRegistrationNumber.equals(parkingSlot.getCar().getRegistrationNumber())) {
@@ -65,13 +62,6 @@ public class FindCarGUI implements ActionListener {
                     }
                     return;
                 }
-
-
-
-/*                String errorText = "Car Registration is not of the required format";
-
-                if (!Application.isValidCarRegistration(carRegistrationFld.getText()))
-                    JOptionPane.showMessageDialog(findCarFrame, errorText);*/
             }
 
         });
@@ -92,13 +82,11 @@ public class FindCarGUI implements ActionListener {
         findCarLabel = new JLabel("Select Car Registration of Parked Car");
         findCarLabel.setBounds(50, 50, 250, 50);
 
-
         //Add UI elements to frame
         findCarFrame.add(findCarLabel);
         findCarFrame.add(findBtn);
         findCarFrame.add(cancelBtn);
         findCarFrame.add(carComboBox);
-
 
         findCarFrame.setVisible(true);
     }

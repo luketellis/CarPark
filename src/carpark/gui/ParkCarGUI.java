@@ -37,7 +37,6 @@ public class ParkCarGUI implements ActionListener {
         parkCarFrame.setSize(500, 300);
         parkCarFrame.setLayout(null);
 
-
         parkBtn = new JButton("Create");
 
         parkBtn.addActionListener(new ActionListener() {
@@ -49,37 +48,37 @@ public class ParkCarGUI implements ActionListener {
                 } else if (visitorTypeRadioBtn.isSelected()) {
                     isStaff = false;
                 } else {
-                    JOptionPane.showMessageDialog(parkCarFrame, "Please select a parking slot type radio button");
+                    JOptionPane.showMessageDialog(parkCarFrame, "Please select a parking slot type radio button", "Validation Error!", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
 
                 String potentialCarRegistration = carRegistrationFld.getText();
                 if (!Application.isValidCarRegistration(potentialCarRegistration)) {
-                    JOptionPane.showMessageDialog(parkCarFrame, "Car Registration is not of the required format");
+                    JOptionPane.showMessageDialog(parkCarFrame, "Car Registration is not of the required format", "Error!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 String carOwnerName = carOwnerNameFld.getText();
                 if (carOwnerName.length() < 1) {
-                    JOptionPane.showMessageDialog(parkCarFrame, "Car Owner Name Needs To Be Entered");
+                    JOptionPane.showMessageDialog(parkCarFrame, "Car Owner Name Needs To Be Entered", "Error!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 if (parkingSlotBox.getSelectedItem() == null) {
-                    JOptionPane.showMessageDialog(parkCarFrame, "Please select a parking slot id");
+                    JOptionPane.showMessageDialog(parkCarFrame, "Please select a parking slot id", "Error!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 String selectedParkingSlot = parkingSlotBox.getSelectedItem().toString();
-                if (carPark.isCarWithRegistrationAlreadyParked(selectedParkingSlot)) {
-                    JOptionPane.showMessageDialog(parkCarFrame, "A Car at '" + selectedParkingSlot + "'is already parked in the Car Park");
+                if (carPark.isCarWithRegistrationAlreadyParked(potentialCarRegistration)) {
+                    JOptionPane.showMessageDialog(parkCarFrame, "A Car at '" + selectedParkingSlot + "' is already parked in the Car Park", "Error!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 carPark.parkCar(selectedParkingSlot, new Car(potentialCarRegistration, carOwnerName, isStaff));
                 String message = "Parking Slot '" + selectedParkingSlot + "' is now occupied by Car with registration '" + potentialCarRegistration + "'";
                 JOptionPane.showMessageDialog(parkCarFrame, message);
-
+                parkingSlotBox.removeItem(selectedParkingSlot);
             }
         });
 
@@ -150,40 +149,23 @@ public class ParkCarGUI implements ActionListener {
         carOwnerNameFld = new JTextField();
         carOwnerNameFld.setBounds(50, 140, 80, 30);
 
-
-
         parkCarFrame.add(parkingSlotBox);
-
         parkCarFrame.add(carRegistrationLabel);
         parkCarFrame.add(carRegistrationFld);
-
         parkCarFrame.add(carOwnerNameLabel);
         parkCarFrame.add(carOwnerNameFld);
-
-
-        // Adding "jButton" on JFrame.
         parkCarFrame.add(parkBtn);
-
-        // Adding "jButton" on JFrame.
         parkCarFrame.add(cancelBtn);
-
-        // Adding "jRadioButton2" on JFrame.
         parkCarFrame.add(staffTypeRadioBtn);
-
-        // Adding "jRadioButton4" on JFrame.
         parkCarFrame.add(visitorTypeRadioBtn);
-
-        // Adding JLabel "parkingSlotTypeLabel" on JFrame.
         parkCarFrame.add(parkingSlotTypeLabel);
 
-
-        // Adding "jRadioButton1" and "jRadioButton3" in a Button Group "G2".
+        //Adding radio buttons to group
         staffVisitorGroup.add(staffTypeRadioBtn);
         staffVisitorGroup.add(visitorTypeRadioBtn);
 
         parkCarFrame.setVisible(true);
     }
-
 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();

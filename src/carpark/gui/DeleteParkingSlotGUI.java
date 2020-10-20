@@ -49,7 +49,6 @@ public class DeleteParkingSlotGUI implements ActionListener {
                 parkingSlotBox.removeItem(parkingSlotId);
                 String parkingSlotRemovedMessage = "Parking Slot with id '" + parkingSlotId + "' has been removed from the system";
                 JOptionPane.showMessageDialog(deleteParkingSlotFrame, parkingSlotRemovedMessage);
-
             }
 
         });

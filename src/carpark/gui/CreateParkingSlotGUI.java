@@ -32,19 +32,15 @@ public class CreateParkingSlotGUI implements ActionListener {
         createParkingSlotFrame.setSize(500,300);
         createParkingSlotFrame.setLayout(null);
 
-        // Initialization of object of "JRadioButton" class.
-        staffTypeRadioBtn = new JRadioButton();
-
-        // Initialization of object of "JRadioButton" class.
-        visitorTypeRadioBtn = new JRadioButton();
+        //Initialization of radio buttons
+        staffTypeRadioBtn = new JRadioButton("Staff", true);
+        visitorTypeRadioBtn = new JRadioButton("Visitor");
 
         // Initialization of object of "JButton" class.
         createBtn = new JButton("Create");
-
         createBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedText = "Please select radio button";
                 if (staffTypeRadioBtn.isSelected()) {
                     carPark.addParkingSlotsByNumberAndType(1, "staff");
 
@@ -59,18 +55,14 @@ public class CreateParkingSlotGUI implements ActionListener {
                 else {
                     JOptionPane.showMessageDialog(createParkingSlotFrame, "Please select a radio button");
                 }
-
-                /*frame.dispose();
-                new CarParkMenuGUI();*/
             }
         });
 
-        // Initialization of object of "JButton" class.
+        //Initialization of object of "JButton" class.
         cancelBtn = new JButton("Cancel");
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
                 mainMenuFrame.setVisible(true);
                 createParkingSlotFrame.dispose();
             }
@@ -82,44 +74,23 @@ public class CreateParkingSlotGUI implements ActionListener {
         // Initialization of object of " JLabel" class.
         parkingSlotTypeLabel = new JLabel("Parking Slot Type");
 
-        // setText(...) function is used to set text of radio button.
-        // Setting text of "jRadioButton2".
-        staffTypeRadioBtn.setText("Staff");
-
-        // Setting text of "jRadioButton4".
-        visitorTypeRadioBtn.setText("Visitor");
-
         // Setting Bounds of JLabel "L2".
         parkingSlotTypeLabel.setBounds(30, 30, 120, 50);
 
-        // Setting Bounds of "jRadioButton2".
+        //Setting position of radio buttons
         staffTypeRadioBtn.setBounds(250, 30, 120, 50);
-
-        // Setting Bounds of "jRadioButton4".
         visitorTypeRadioBtn.setBounds(380, 30, 80, 50);
 
         // Setting Bounds of "jButton".
         createBtn.setBounds(250, 90, 80, 30);
-
         cancelBtn.setBounds(380, 90, 80, 30);
 
-        // Adding "jButton" on JFrame.
+        //Adding elements to parent frame
         createParkingSlotFrame.add(createBtn);
-
-        // Adding "jButton" on JFrame.
         createParkingSlotFrame.add(cancelBtn);
-
-        // Adding "jRadioButton2" on JFrame.
         createParkingSlotFrame.add(staffTypeRadioBtn);
-
-        // Adding "jRadioButton4" on JFrame.
         createParkingSlotFrame.add(visitorTypeRadioBtn);
-
-        // Adding JLabel "parkingSlotTypeLabel" on JFrame.
         createParkingSlotFrame.add(parkingSlotTypeLabel);
-
-
-        // Adding "jRadioButton1" and "jRadioButton3" in a Button Group "G2".
         parkingSlotTypeGroup.add(staffTypeRadioBtn);
         parkingSlotTypeGroup.add(visitorTypeRadioBtn);
 
