@@ -22,7 +22,6 @@ public class CarParkMenuGUI {
 
     CarPark carPark;
 
-
     public CarParkMenuGUI(int staffSpots, int visitorSpots) {
         makeFrame();
 
@@ -65,7 +64,6 @@ public class CarParkMenuGUI {
         });
 
         createParkBtn = new JButton("Create Parking Slot");
-
         createParkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,17 +73,15 @@ public class CarParkMenuGUI {
         });
 
         deleteParkBtn = new JButton("Delete Parking Slot");
-
         deleteParkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainMenuFrame.setVisible(false);
-                new DeleteParkingSlotGUI();
+                new DeleteParkingSlotGUI(carPark, mainMenuFrame);
             }
         });
 
         removeCarBtn = new JButton("Remove Car");
-
         removeCarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,12 +125,11 @@ public class CarParkMenuGUI {
         // Data to be displayed in the JTable
         Object[][] data = createTableData();
 
-
+        //declare new DefaultTableModel and set cells to uneditable
         model = new DefaultTableModel(data, columnNames) {
-
             @Override
             public boolean isCellEditable(int row, int column) {
-                //all cells false
+
                 return false;
             }
         };

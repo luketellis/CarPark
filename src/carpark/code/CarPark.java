@@ -145,6 +145,24 @@ public class CarPark {
     }
 
     /**
+     * Returns a list of Parking Slot Id's which are empty
+     *
+     * @return       String[] Array containing empty parking slot id's
+     */
+    public String[] retrieveEmptyParkingSlots() {
+        ArrayList<String> ids = new ArrayList<String>();
+        for (ParkingSlot parkingSlot : carParkList) {
+            if (parkingSlot.getCar() == null) {
+                ids.add(parkingSlot.getId());
+            }
+        }
+
+        String[] idArray = new String[ids.size()];
+        idArray = ids.toArray(idArray);
+        return idArray;
+    }
+
+    /**
      * Checks if a parking slot is occupied
      *
      * @param slotId Id of ParkingSlot to be checked

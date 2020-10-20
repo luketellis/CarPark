@@ -48,7 +48,7 @@ public class CreateParkingSlotGUI implements ActionListener {
                 if (staffTypeRadioBtn.isSelected()) {
                     carPark.addParkingSlotsByNumberAndType(1, "staff");
 
-                    JOptionPane.showMessageDialog(createParkingSlotFrame, "A new Parking Slot of type 'Staff' has been added\n" + carPark.carParkList.size());
+                    JOptionPane.showMessageDialog(createParkingSlotFrame, "A new Parking Slot of type 'Staff' has been added");
                 }
 
                 else if (visitorTypeRadioBtn.isSelected()) {
@@ -125,7 +125,6 @@ public class CreateParkingSlotGUI implements ActionListener {
 
         createParkingSlotFrame.setVisible(true);
     }
-
 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
