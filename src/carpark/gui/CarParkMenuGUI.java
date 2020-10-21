@@ -10,18 +10,26 @@ import java.awt.event.*;
 
 
 public class CarParkMenuGUI {
-    private final JButton parkCarBtn, findCarBtn, createParkBtn, deleteParkBtn, removeCarBtn, exitBtn;
-    static JTable parkingSlotTable;
+    private JButton parkCarBtn, findCarBtn, createParkBtn, deleteParkBtn, removeCarBtn, exitBtn;
+    private JTable parkingSlotTable;
     private JFrame mainMenuFrame;
+    private int minimumTableRowWidth = 160;
 
-    String[] columnNames = {"Parking Slot Id", "Type", "Car"};
+    private JPanel buttonPanel;
+    private JPanel tablePanel;
+
+    String[] columnNames = {"Parking Slot Id", "Type", "Car Details"};
     DefaultTableModel model;
     JScrollPane sp;
 
     CarPark carPark;
 
     public CarParkMenuGUI(int staffSpots, int visitorSpots) {
+        buttonPanel = new JPanel();
+        tablePanel = new JPanel();
+        tablePanel.setLayout(new BorderLayout());
         makeFrame();
+
 
         mainMenuFrame.addComponentListener(new ComponentAdapter() {
             public void componentShown(ComponentEvent e) {
@@ -35,13 +43,13 @@ public class CarParkMenuGUI {
 
                 parkingSlotTable.setModel(model);
                 model.fireTableStructureChanged();
+                resizeTable();
             }
         });
 
         carPark = new CarPark();
         carPark.addParkingSlotsByNumberAndType(staffSpots, "staff");
         carPark.addParkingSlotsByNumberAndType(visitorSpots, "visitor");
-
 
         parkCarBtn = new JButton("Park Car");
         parkCarBtn.addActionListener(new ActionListener() {
@@ -97,22 +105,35 @@ public class CarParkMenuGUI {
             }
         });
 
-        mainMenuFrame.add(parkCarBtn);
-        mainMenuFrame.add(findCarBtn);
-        mainMenuFrame.add(createParkBtn);
-        mainMenuFrame.add(deleteParkBtn);
-        mainMenuFrame.add(removeCarBtn);
-        mainMenuFrame.add(exitBtn);
+        buttonPanel.add(parkCarBtn);
+        buttonPanel.add(findCarBtn);
+        buttonPanel.add(createParkBtn);
+        buttonPanel.add(deleteParkBtn);
+        buttonPanel.add(removeCarBtn);
+        buttonPanel.add(exitBtn);
 
         parkingSlotTable = createTable();
-        parkingSlotTable.setBounds(30, 40, 250, 500);
+        parkingSlotTable.setBounds(10, 50, 300, 500);
 
         sp = new JScrollPane(parkingSlotTable);
-        mainMenuFrame.add(sp);
+        parkingSlotTable.setFillsViewportHeight(true);
 
-        mainMenuFrame.setLayout(new FlowLayout());
-        mainMenuFrame.setSize(800,800);
+        tablePanel.add(sp);
+
+        mainMenuFrame.add(buttonPanel, BorderLayout.PAGE_START);
+        mainMenuFrame.add(tablePanel,BorderLayout.CENTER);
+
+        resizeTable();
+
+        mainMenuFrame.setSize(minimumTableRowWidth * 5,minimumTableRowWidth * 5);
         mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void resizeTable()  {
+        parkingSlotTable.getColumnModel().getColumn(0).setPreferredWidth(minimumTableRowWidth);
+        parkingSlotTable.getColumnModel().getColumn(1).setPreferredWidth(minimumTableRowWidth);
+        parkingSlotTable.getColumnModel().getColumn(2).setPreferredWidth(minimumTableRowWidth * 6);
+        parkingSlotTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     }
 
     private JTable createTable() {
@@ -123,7 +144,6 @@ public class CarParkMenuGUI {
         model = new DefaultTableModel(data, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
-
                 return false;
             }
         };
@@ -138,7 +158,10 @@ public class CarParkMenuGUI {
             for (ParkingSlot slot : carPark.carParkList) {
                 data[i][0] = slot.getId();
                 data[i][1] = slot.getType();
-                data[i][2] = slot.getCar();
+
+                if (slot.getCar() != null)
+                    data[i][2] = slot.getCar().printUserFriendlyString();
+
                 i++;
             }
         }

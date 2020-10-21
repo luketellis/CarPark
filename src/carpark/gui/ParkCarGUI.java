@@ -71,7 +71,7 @@ public class ParkCarGUI implements ActionListener {
 
                 String selectedParkingSlot = parkingSlotBox.getSelectedItem().toString();
                 if (carPark.isCarWithRegistrationAlreadyParked(potentialCarRegistration)) {
-                    JOptionPane.showMessageDialog(parkCarFrame, "A Car at '" + selectedParkingSlot + "' is already parked in the Car Park", "Error!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(parkCarFrame, "A Car with registration '" + potentialCarRegistration + "' is already parked in the Car Park", "Error!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 

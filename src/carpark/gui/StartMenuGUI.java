@@ -12,7 +12,6 @@ public class StartMenuGUI implements ActionListener {
     private JLabel staffLabel, visitorLabel;
     private JButton startBtn, exitBtn;
 
-
     private JTextField staffParksFld, visitorsParksFld;
     private JPanel buttonsPanel, emptyPanel, fieldsPanel;
     private JFrame frame;
@@ -53,7 +52,6 @@ public class StartMenuGUI implements ActionListener {
         exitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
                 frame.dispose();
                 System.exit(0);
             }

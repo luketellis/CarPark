@@ -66,4 +66,15 @@ public class Car {
                 ", Owner='" + owner + '\'' +
                 ", isStaff=" + isStaff + '}';
     }
+
+    /**
+     * Returns a String object to display to users in a friendly format.
+     *
+     * @return Car details String
+     */
+    public String printUserFriendlyString() {
+        return  "RegistrationNumber='" + registrationNumber + '\'' +
+                ", Owner='" + owner + '\'' +
+                ", Staff=" + isStaff;
+    }
 }
