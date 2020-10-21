@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class CreateParkingSlotGUI implements ActionListener {
+public class CreateParkingSlotGUI extends FrameSkeleton implements ActionListener {
     private JLabel parkingSlotTypeLabel;
     ButtonGroup parkingSlotTypeGroup;
     JRadioButton staffTypeRadioBtn;
@@ -15,7 +15,7 @@ public class CreateParkingSlotGUI implements ActionListener {
 
     CarPark carPark;
 
-    private JButton createBtn, cancelBtn;
+    private JButton createBtn;
     private JFrame createParkingSlotFrame;
     private JFrame mainMenuFrame;
 
@@ -28,8 +28,7 @@ public class CreateParkingSlotGUI implements ActionListener {
     }
 
     void buildFrame()     {
-        createParkingSlotFrame = new JFrame("Add New Parking Slot");
-        createParkingSlotFrame.setSize(500,300);
+        createParkingSlotFrame = super.makeFrame("Car Park Management System Main Menu", 500, 300);
         createParkingSlotFrame.setLayout(null);
 
         //Initialization of radio buttons
@@ -58,8 +57,6 @@ public class CreateParkingSlotGUI implements ActionListener {
             }
         });
 
-        //Initialization of object of "JButton" class.
-        cancelBtn = new JButton("Cancel");
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,24 +65,21 @@ public class CreateParkingSlotGUI implements ActionListener {
             }
         });
 
-        // Initialization of object of "ButtonGroup" class.
+
         parkingSlotTypeGroup = new ButtonGroup();
 
-        // Initialization of object of " JLabel" class.
         parkingSlotTypeLabel = new JLabel("Parking Slot Type");
-
-        // Setting Bounds of JLabel "L2".
         parkingSlotTypeLabel.setBounds(30, 30, 120, 50);
 
         //Setting position of radio buttons
         staffTypeRadioBtn.setBounds(250, 30, 120, 50);
         visitorTypeRadioBtn.setBounds(380, 30, 80, 50);
 
-        // Setting Bounds of "jButton".
+        //Setting dimensions and position of buttons
         createBtn.setBounds(250, 90, 80, 30);
         cancelBtn.setBounds(380, 90, 80, 30);
 
-        //Adding elements to parent frame
+        //Adding elements to frame and setting it to visible
         createParkingSlotFrame.add(createBtn);
         createParkingSlotFrame.add(cancelBtn);
         createParkingSlotFrame.add(staffTypeRadioBtn);
@@ -93,24 +87,6 @@ public class CreateParkingSlotGUI implements ActionListener {
         createParkingSlotFrame.add(parkingSlotTypeLabel);
         parkingSlotTypeGroup.add(staffTypeRadioBtn);
         parkingSlotTypeGroup.add(visitorTypeRadioBtn);
-
         createParkingSlotFrame.setVisible(true);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        if (command.equals("Quit")) {
-
-        }
-    }
-
-    void makeMenuBar(JFrame frame) {
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem quitItem = new JMenuItem("Quit");
-        fileMenu.add(quitItem);
-        quitItem.addActionListener(this);
     }
 }

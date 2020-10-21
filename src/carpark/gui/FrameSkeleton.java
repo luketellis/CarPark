@@ -10,6 +10,14 @@ public abstract class FrameSkeleton {
 
 
     public FrameSkeleton() {
+    }
+
+    public JFrame makeFrame(String title, int width, int height) {
+        JFrame frame = new JFrame(title);
+        frame.setSize(width, height);
+        //makeMenuBar(frame);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         exitBtn = new JButton("Exit");
         exitBtn.addActionListener(new ActionListener() {
             @Override
@@ -19,14 +27,6 @@ public abstract class FrameSkeleton {
         });
 
         cancelBtn = new JButton("Cancel");
-    }
-
-    private JFrame makeFrame(String title) {
-        JFrame frame = new JFrame(title);
-        makeMenuBar(frame);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.pack();
         return frame;
     }
 
@@ -34,10 +34,16 @@ public abstract class FrameSkeleton {
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
         JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem openItem = new JMenuItem("Open");
-        fileMenu.add(openItem);
+        JMenuItem aboutItem = new JMenuItem("About");
+        fileMenu.add(aboutItem);
         JMenuItem quitItem = new JMenuItem("Quit");
         fileMenu.add(quitItem);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        if (command.equals("Quit")) {
+
+        }
     }
 }

@@ -8,12 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class RemoveCarGUI implements ActionListener {
+public class RemoveCarGUI extends FrameSkeleton implements ActionListener {
     private JLabel carRegistrationLabel;
-    private JTextField carRegistrationFld;
 
-
-    private JButton removeBtn, cancelBtn;
+    private JButton removeBtn;
     private JFrame removeCarFrame;
 
     private CarPark carPark;
@@ -29,8 +27,7 @@ public class RemoveCarGUI implements ActionListener {
     }
 
     void buildFrame() {
-        removeCarFrame = new JFrame("Remove Car from Parking Slot");
-        removeCarFrame.setSize(500, 300);
+        removeCarFrame = super.makeFrame("Park Car", 500, 300);
         removeCarFrame.setLayout(null);
 
         //Initialize find button and set bounds
@@ -56,8 +53,6 @@ public class RemoveCarGUI implements ActionListener {
 
         });
 
-        //Initialize exit button and set bounds
-        cancelBtn = new JButton("Cancel");
         cancelBtn.setBounds(380, 90, 80, 30);
         cancelBtn.addActionListener(new ActionListener() {
             @Override
@@ -71,9 +66,6 @@ public class RemoveCarGUI implements ActionListener {
         carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car");
         carRegistrationLabel.setBounds(50, 50, 250, 50);
 
-/*      carRegistrationFld = new JTextField();
-        carRegistrationFld.setBounds(50, 90, 80, 30);*/
-
         String[] carRegistrations = carPark.retrieveCarRegistrations();
         carRegistrationBox = new JComboBox(carRegistrations);
         carRegistrationBox.setBounds(50, 90, 80, 30);
@@ -85,22 +77,5 @@ public class RemoveCarGUI implements ActionListener {
         removeCarFrame.add(cancelBtn);
 
         removeCarFrame.setVisible(true);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        if (command.equals("Quit")) {
-
-        }
-    }
-
-    void makeMenuBar(JFrame frame) {
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem quitItem = new JMenuItem("Quit");
-        fileMenu.add(quitItem);
-        quitItem.addActionListener(this);
     }
 }

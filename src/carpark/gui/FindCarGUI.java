@@ -9,12 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class FindCarGUI implements ActionListener {
+public class FindCarGUI extends FrameSkeleton implements ActionListener {
     private JLabel findCarLabel;
 
     private JComboBox carComboBox;
 
-    private JButton findBtn, cancelBtn;
+    private JButton findBtn;
     private JFrame findCarFrame;
     private JFrame mainMenuFrame;
 
@@ -29,8 +29,7 @@ public class FindCarGUI implements ActionListener {
     }
 
     void buildFrame() {
-        findCarFrame = new JFrame("Find Parked Car");
-        findCarFrame.setSize(500, 300);
+        findCarFrame = super.makeFrame("Find Parked Car", 500, 300);
         findCarFrame.setLayout(null);
 
         //Initialize find button and set bounds
@@ -60,19 +59,17 @@ public class FindCarGUI implements ActionListener {
 
                         JOptionPane.showMessageDialog(findCarFrame, carRegistrationInformation);
                     }
-                    return;
+
                 }
+                return;
             }
 
         });
 
-        //Initialize exit button and set bounds
-        cancelBtn = new JButton("Cancel");
         cancelBtn.setBounds(380, 90, 80, 30);
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //JOptionPane.showMessageDialog(frame, Application.isStringNumber(visitorsParksFld.getText()));
                 mainMenuFrame.setVisible(true);
                 findCarFrame.dispose();
             }
@@ -89,23 +86,5 @@ public class FindCarGUI implements ActionListener {
         findCarFrame.add(carComboBox);
 
         findCarFrame.setVisible(true);
-    }
-
-
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        if (command.equals("Quit")) {
-
-        }
-    }
-
-    void makeMenuBar(JFrame frame) {
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem quitItem = new JMenuItem("Quit");
-        fileMenu.add(quitItem);
-        quitItem.addActionListener(this);
     }
 }

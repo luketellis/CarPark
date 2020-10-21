@@ -9,13 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class ParkCarGUI implements ActionListener {
+public class ParkCarGUI extends FrameSkeleton implements ActionListener {
     private ButtonGroup staffVisitorGroup;
     private JRadioButton staffTypeRadioBtn;
     private JRadioButton visitorTypeRadioBtn;
 
     private JComboBox parkingSlotBox;
-    private JButton parkBtn, cancelBtn;
+    private JButton parkBtn;
     private JLabel carOwnerNameLabel, carRegistrationLabel;
     private JTextField carOwnerNameFld, carRegistrationFld;
 
@@ -33,8 +33,7 @@ public class ParkCarGUI implements ActionListener {
     }
 
     void buildFrame() {
-        parkCarFrame = new JFrame("Park Car");
-        parkCarFrame.setSize(500, 300);
+        parkCarFrame = super.makeFrame("Park Car", 500, 300);
         parkCarFrame.setLayout(null);
 
         parkBtn = new JButton("Create");
@@ -82,7 +81,9 @@ public class ParkCarGUI implements ActionListener {
             }
         });
 
-        cancelBtn = new JButton("Cancel");
+        //Setting buttons dimensions and position
+        parkBtn.setBounds(250, 200, 80, 30);
+        cancelBtn.setBounds(380, 200, 80, 30);
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,22 +92,14 @@ public class ParkCarGUI implements ActionListener {
             }
         });
 
-        //Setting Bounds of "buttons".
-        parkBtn.setBounds(250, 200, 80, 30);
-        cancelBtn.setBounds(380, 200, 80, 30);
-
         String[] parkingSlotIds = carPark.retrieveParkingSlotIdsByType("staff");
         parkingSlotBox = new JComboBox(parkingSlotIds);
         parkingSlotBox.setBounds(380, 80, 80, 30);
 
-        // Initialization of object of "ButtonGroup" class.
         staffVisitorGroup = new ButtonGroup();
 
-        // Initialization of object of " JLabel" class.
         JLabel parkingSlotTypeLabel = new JLabel("Staff/Visitor");
 
-
-        // Initialization of object of "JRadioButton" class.
         staffTypeRadioBtn = new JRadioButton("Staff", true);
         staffTypeRadioBtn.addActionListener(new ActionListener() {
             @Override
@@ -116,7 +109,6 @@ public class ParkCarGUI implements ActionListener {
             }
         });
 
-        // Initialization of object of "JRadioButton" class.
         visitorTypeRadioBtn = new JRadioButton("Visitor");
         visitorTypeRadioBtn.addActionListener(new ActionListener() {
             @Override
@@ -127,16 +119,12 @@ public class ParkCarGUI implements ActionListener {
         });
 
 
-        // Setting Bounds of JLabel "L2".
+
         parkingSlotTypeLabel.setBounds(50, 10, 120, 50);
 
-        // Setting Bounds of "jRadioButton2".
         staffTypeRadioBtn.setBounds(250, 10, 120, 50);
-
-        // Setting Bounds of "jRadioButton4".
         visitorTypeRadioBtn.setBounds(380, 10, 80, 50);
 
-        //Initialize label and set bounds
         carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car");
         carRegistrationLabel.setBounds(50, 40, 250, 50);
 
@@ -165,22 +153,5 @@ public class ParkCarGUI implements ActionListener {
         staffVisitorGroup.add(visitorTypeRadioBtn);
 
         parkCarFrame.setVisible(true);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        if (command.equals("Quit")) {
-
-        }
-    }
-
-    void makeMenuBar(JFrame frame) {
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem quitItem = new JMenuItem("Quit");
-        fileMenu.add(quitItem);
-        quitItem.addActionListener(this);
     }
 }

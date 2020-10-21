@@ -8,88 +8,60 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class StartMenuGUI implements ActionListener {
+public class StartMenuGUI extends FrameSkeleton implements ActionListener {
     private JLabel staffLabel, visitorLabel;
-    private JButton startBtn, exitBtn;
-
     private JTextField staffParksFld, visitorsParksFld;
+    private JButton startBtn;
+
     private JPanel buttonsPanel, emptyPanel, fieldsPanel;
-    private JFrame frame;
+    private JFrame startMenuFrame;
 
     public StartMenuGUI() {
         buildFrame();
-        makeMenuBar(frame);
+        makeMenuBar(startMenuFrame);
     }
 
     void buildFrame() {
-        frame= new JFrame("Car Park System");
+        startMenuFrame = super.makeFrame("Car Park Management System", 350, 250);
         buttonsPanel = new JPanel();
         emptyPanel = new JPanel();
         fieldsPanel = new JPanel();
-        frame.setSize(350,250);
 
         staffLabel = new JLabel("Staff");
-        visitorLabel = new JLabel("Visitors");
         staffParksFld = new JTextField("1");
+        visitorLabel = new JLabel("Visitors");
         visitorsParksFld = new JTextField("1");
         startBtn = new JButton("Create Car Park");
-        exitBtn = new JButton("Exit");
 
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (!Application.isStringNumber(staffParksFld.getText()) || !Application.isStringNumber(visitorsParksFld.getText()))
-                    JOptionPane.showMessageDialog(frame, "Starting Parking Slots must be four digit numbers");
+                    JOptionPane.showMessageDialog(startMenuFrame, "Starting Parking Slots must be four digit numbers");
                 else
                 {
-                    frame.dispose();
+                    startMenuFrame.dispose();
                     new CarParkMenuGUI(Integer.parseInt(staffParksFld.getText()), Integer.parseInt(visitorsParksFld.getText()));
                 }
             }
         });
 
-        exitBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                System.exit(0);
-            }
-        });
-
+        //Set layout and add elements to panels
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.PAGE_AXIS));
-        buttonsPanel.setLayout(new FlowLayout());
-
         fieldsPanel.add(staffLabel);
         fieldsPanel.add(staffParksFld);
         fieldsPanel.add(visitorLabel);
         fieldsPanel.add(visitorsParksFld);
+
+        buttonsPanel.setLayout(new FlowLayout());
         buttonsPanel.add(startBtn);
         buttonsPanel.add(exitBtn);
 
-        frame.add(fieldsPanel, BorderLayout.PAGE_START);
-        frame.add(emptyPanel, BorderLayout.CENTER);
-        frame.add(buttonsPanel, BorderLayout.PAGE_END);
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        if (command.equals("Quit")) {
-
-        }
-    }
-
-    void makeMenuBar(JFrame frame) {
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem quitItem = new JMenuItem("Quit");
-        fileMenu.add(quitItem);
-        quitItem.addActionListener(this);
+        //Add panels to frame and set as visible
+        startMenuFrame.add(fieldsPanel, BorderLayout.PAGE_START);
+        startMenuFrame.add(emptyPanel, BorderLayout.CENTER);
+        startMenuFrame.add(buttonsPanel, BorderLayout.PAGE_END);
+        startMenuFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

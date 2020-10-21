@@ -9,14 +9,13 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class CarParkMenuGUI {
-    private JButton parkCarBtn, findCarBtn, createParkBtn, deleteParkBtn, removeCarBtn, exitBtn;
+public class CarParkMenuGUI extends FrameSkeleton {
+    private final int minimumTableRowWidth = 160;
+    private JButton parkCarBtn, findCarBtn, createParkBtn, deleteParkBtn, removeCarBtn;
     private JTable parkingSlotTable;
     private JFrame mainMenuFrame;
-    private int minimumTableRowWidth = 160;
 
-    private JPanel buttonPanel;
-    private JPanel tablePanel;
+    private JPanel buttonPanel, tablePanel;
 
     String[] columnNames = {"Parking Slot Id", "Type", "Car Details"};
     DefaultTableModel model;
@@ -25,11 +24,12 @@ public class CarParkMenuGUI {
     CarPark carPark;
 
     public CarParkMenuGUI(int staffSpots, int visitorSpots) {
+        mainMenuFrame = super.makeFrame("Car Park Management System Main Menu", 500, 300);
+        mainMenuFrame.setVisible(true);
+        mainMenuFrame.pack();
         buttonPanel = new JPanel();
         tablePanel = new JPanel();
         tablePanel.setLayout(new BorderLayout());
-        makeFrame();
-
 
         mainMenuFrame.addComponentListener(new ComponentAdapter() {
             public void componentShown(ComponentEvent e) {
@@ -96,15 +96,6 @@ public class CarParkMenuGUI {
             }
         });
 
-        exitBtn = new JButton("Exit");
-        exitBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainMenuFrame.dispose();
-                System.exit(0);
-            }
-        });
-
         buttonPanel.add(parkCarBtn);
         buttonPanel.add(findCarBtn);
         buttonPanel.add(createParkBtn);
@@ -167,23 +158,5 @@ public class CarParkMenuGUI {
         }
 
         return data;
-    }
-
-    private void makeFrame() {
-        mainMenuFrame = new JFrame("Car Park");
-        makeMenuBar(mainMenuFrame);
-        mainMenuFrame.setVisible(true);
-        mainMenuFrame.pack();
-    }
-
-    void makeMenuBar(JFrame frame) {
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem openItem = new JMenuItem("Open");
-        fileMenu.add(openItem);
-        JMenuItem quitItem = new JMenuItem("Quit");
-        fileMenu.add(quitItem);
     }
 }
