@@ -1,22 +1,22 @@
 package carpark.gui;
 
-import carpark.code.Application;
 import carpark.code.CarPark;
 import carpark.code.ParkingSlot;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
 public class FindCarGUI extends FrameSkeleton implements ActionListener {
     private JLabel findCarLabel;
-
-    private JComboBox carComboBox;
-
+    private JComboBox carRegistrationBox;
     private JButton findBtn;
-    private JFrame findCarFrame;
-    private JFrame mainMenuFrame;
+
+    private JFrame findCarFrame, mainMenuFrame;
+
+    private JPanel buttonsPanel, labelPanel, comboBoxPanel;
 
     private CarPark carPark;
 
@@ -30,26 +30,24 @@ public class FindCarGUI extends FrameSkeleton implements ActionListener {
 
     void buildFrame() {
         findCarFrame = super.makeFrame("Find Parked Car", 500, 300);
-        findCarFrame.setLayout(null);
 
-        //Initialize find button and set bounds
+        findCarLabel = new JLabel("Select Car Registration of Parked Car");
         findBtn = new JButton("Find Car");
-        findBtn.setBounds(250, 90, 80, 30);
 
         String[] carRegistrations = carPark.retrieveCarRegistrations();
-        carComboBox = new JComboBox(carRegistrations);
-        carComboBox.setBounds(50, 90, 80, 30);
+        carRegistrationBox = new JComboBox(carRegistrations);
+        carRegistrationBox.setPreferredSize(new Dimension(100, 20));
 
         findBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (carComboBox.getSelectedItem() == null) {
+                if (carRegistrationBox.getSelectedItem() == null) {
                     JOptionPane.showMessageDialog(findCarFrame, "Please select a car registration number");
                     return;
                 }
 
-                String carRegistrationNumber = carComboBox.getSelectedItem().toString();
+                String carRegistrationNumber = carRegistrationBox.getSelectedItem().toString();
 
                 for (ParkingSlot parkingSlot : carPark.carParkList) {
                     //If parkingSlot has a car and the car's registration matches the requested registration
@@ -59,14 +57,11 @@ public class FindCarGUI extends FrameSkeleton implements ActionListener {
 
                         JOptionPane.showMessageDialog(findCarFrame, carRegistrationInformation);
                     }
-
                 }
                 return;
             }
-
         });
 
-        cancelBtn.setBounds(380, 90, 80, 30);
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,16 +70,36 @@ public class FindCarGUI extends FrameSkeleton implements ActionListener {
             }
         });
 
-        //Initialize label and set bounds
-        findCarLabel = new JLabel("Select Car Registration of Parked Car");
-        findCarLabel.setBounds(50, 50, 250, 50);
+        arrangeElementsIntoPanelsAndAddToFrame();
+        addPanelsToFrameAndSetVisible();
+    }
 
-        //Add UI elements to frame
-        findCarFrame.add(findCarLabel);
-        findCarFrame.add(findBtn);
-        findCarFrame.add(cancelBtn);
-        findCarFrame.add(carComboBox);
+    public void arrangeElementsIntoPanelsAndAddToFrame()  {
+        comboBoxPanel = new JPanel();
+        comboBoxPanel.setLayout(new FlowLayout());
+        comboBoxPanel.add(carRegistrationBox);
 
+        buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout());
+        buttonsPanel.add(findBtn);
+        buttonsPanel.add(cancelBtn);
+
+        labelPanel = new JPanel();
+        labelPanel.setLayout(new FlowLayout());
+        labelPanel.add(findCarLabel);
+
+        findCarFrame.add(labelPanel, BorderLayout.NORTH);
+        findCarFrame.add(comboBoxPanel,BorderLayout.CENTER);
+        findCarFrame.add(buttonsPanel, BorderLayout.PAGE_END);
+    }
+
+    /**
+     * Adds the Panels to the Frame and sets the visibility of the Frame to true
+     */
+    public void addPanelsToFrameAndSetVisible()  {
+        findCarFrame.add(labelPanel, BorderLayout.NORTH);
+        findCarFrame.add(comboBoxPanel,BorderLayout.CENTER);
+        findCarFrame.add(buttonsPanel, BorderLayout.PAGE_END);
         findCarFrame.setVisible(true);
     }
 }

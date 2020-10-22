@@ -3,6 +3,7 @@ package carpark.gui;
 import carpark.code.CarPark;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,7 @@ public class DeleteParkingSlotGUI extends FrameSkeleton implements ActionListene
 
     private JFrame deleteParkingSlotFrame;
     private JFrame mainMenuFrame;
+    private JPanel labelComboBoxPanel, buttonsPanel;
 
     private CarPark carPark;
 
@@ -27,11 +29,13 @@ public class DeleteParkingSlotGUI extends FrameSkeleton implements ActionListene
 
     void buildFrame()   {
         deleteParkingSlotFrame = super.makeFrame("Delete Parking Slot", 500, 300);
-        deleteParkingSlotFrame.setLayout(null);
+
+        parkingSlotLabel = new JLabel("Select Parking Slot Id To Delete");
+        String[] parkingSlotIds = carPark.retrieveEmptyParkingSlots();
+        parkingSlotBox = new JComboBox(parkingSlotIds);
+        parkingSlotBox.setPreferredSize(new Dimension(80, 20));
 
         deleteBtn = new JButton("Delete");
-        deleteBtn.setBounds(250, 90, 80, 30);
-
         deleteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,10 +51,8 @@ public class DeleteParkingSlotGUI extends FrameSkeleton implements ActionListene
                 String parkingSlotRemovedMessage = "Parking Slot with id '" + parkingSlotId + "' has been removed from the system";
                 JOptionPane.showMessageDialog(deleteParkingSlotFrame, parkingSlotRemovedMessage);
             }
-
         });
 
-        cancelBtn.setBounds(380, 90, 80, 30);
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,21 +60,28 @@ public class DeleteParkingSlotGUI extends FrameSkeleton implements ActionListene
                 deleteParkingSlotFrame.dispose();
             }
         });
+        arrangeElementsIntoPanelsAndAddToFrame();
+        addPanelsToFrameAndSetVisible();
+    }
 
-        String[] parkingSlotIds = carPark.retrieveEmptyParkingSlots();
-        parkingSlotBox = new JComboBox(parkingSlotIds);
-        parkingSlotBox.setBounds(50, 90, 80, 30);
+    public void arrangeElementsIntoPanelsAndAddToFrame()  {
+        labelComboBoxPanel = new JPanel();
+        labelComboBoxPanel.setLayout(new FlowLayout());
+        labelComboBoxPanel.add(parkingSlotLabel);
+        labelComboBoxPanel.add(parkingSlotBox);
 
-        //Initialize label and set bounds
-        parkingSlotLabel = new JLabel("Enter Parking Slot Id of Parked Car");
-        parkingSlotLabel.setBounds(50, 50, 250, 50);
+        buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout());
+        buttonsPanel.add(deleteBtn);
+        buttonsPanel.add(cancelBtn);
+    }
 
-        //Add UI elements to frame
-        deleteParkingSlotFrame.add(parkingSlotLabel);
-        deleteParkingSlotFrame.add(parkingSlotBox);
-        deleteParkingSlotFrame.add(deleteBtn);
-        deleteParkingSlotFrame.add(cancelBtn);
-
+    /**
+     * Adds the Panels to the Frame and sets the visibility of the Frame to true
+     */
+    public void addPanelsToFrameAndSetVisible()  {
+        deleteParkingSlotFrame.add(labelComboBoxPanel, BorderLayout.NORTH);
+        deleteParkingSlotFrame.add(buttonsPanel, BorderLayout.CENTER);
         deleteParkingSlotFrame.setVisible(true);
     }
 }

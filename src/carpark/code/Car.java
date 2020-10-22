@@ -73,8 +73,10 @@ public class Car {
      * @return Car details String
      */
     public String printUserFriendlyString() {
+        String personType = (isStaff) ? "Staff Member" : "Visitor";
+
         return  "RegistrationNumber='" + registrationNumber + '\'' +
                 ", Owner='" + owner + '\'' +
-                ", Staff=" + isStaff;
+                ", " + personType;
     }
 }

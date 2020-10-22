@@ -46,7 +46,11 @@ public class StartMenuGUI extends FrameSkeleton implements ActionListener {
             }
         });
 
-        //Set layout and add elements to panels
+        arrangeElementsIntoPanelsAndAddToFrame();
+        addPanelsToFrameAndSetVisible();
+    }
+
+    public void arrangeElementsIntoPanelsAndAddToFrame()  {
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.PAGE_AXIS));
         fieldsPanel.add(staffLabel);
         fieldsPanel.add(staffParksFld);
@@ -56,8 +60,12 @@ public class StartMenuGUI extends FrameSkeleton implements ActionListener {
         buttonsPanel.setLayout(new FlowLayout());
         buttonsPanel.add(startBtn);
         buttonsPanel.add(exitBtn);
+    }
 
-        //Add panels to frame and set as visible
+    /**
+     * Adds the Panels to the Frame and sets the visibility of the Frame to true
+     */
+    public void addPanelsToFrameAndSetVisible()  {
         startMenuFrame.add(fieldsPanel, BorderLayout.PAGE_START);
         startMenuFrame.add(emptyPanel, BorderLayout.CENTER);
         startMenuFrame.add(buttonsPanel, BorderLayout.PAGE_END);

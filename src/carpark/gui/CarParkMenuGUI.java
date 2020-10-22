@@ -27,6 +27,7 @@ public class CarParkMenuGUI extends FrameSkeleton {
         mainMenuFrame = super.makeFrame("Car Park Management System Main Menu", 500, 300);
         mainMenuFrame.setVisible(true);
         mainMenuFrame.pack();
+
         buttonPanel = new JPanel();
         tablePanel = new JPanel();
         tablePanel.setLayout(new BorderLayout());
@@ -104,20 +105,14 @@ public class CarParkMenuGUI extends FrameSkeleton {
         buttonPanel.add(exitBtn);
 
         parkingSlotTable = createTable();
-        parkingSlotTable.setBounds(10, 50, 300, 500);
-
         sp = new JScrollPane(parkingSlotTable);
-        parkingSlotTable.setFillsViewportHeight(true);
+        resizeTable();
 
         tablePanel.add(sp);
 
         mainMenuFrame.add(buttonPanel, BorderLayout.PAGE_START);
         mainMenuFrame.add(tablePanel,BorderLayout.CENTER);
-
-        resizeTable();
-
         mainMenuFrame.setSize(minimumTableRowWidth * 5,minimumTableRowWidth * 5);
-        mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void resizeTable()  {

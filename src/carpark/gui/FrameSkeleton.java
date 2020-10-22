@@ -16,7 +16,7 @@ public abstract class FrameSkeleton {
         JFrame frame = new JFrame(title);
         frame.setSize(width, height);
         //makeMenuBar(frame);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         exitBtn = new JButton("Exit");
         exitBtn.addActionListener(new ActionListener() {

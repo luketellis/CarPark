@@ -118,8 +118,6 @@ public class ParkCarGUI extends FrameSkeleton implements ActionListener {
             }
         });
 
-
-
         parkingSlotTypeLabel.setBounds(50, 10, 120, 50);
 
         staffTypeRadioBtn.setBounds(250, 10, 120, 50);

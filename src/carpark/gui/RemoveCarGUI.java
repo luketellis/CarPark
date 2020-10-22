@@ -10,13 +10,13 @@ import java.awt.event.ActionListener;
 
 public class RemoveCarGUI extends FrameSkeleton implements ActionListener {
     private JLabel carRegistrationLabel;
-
     private JButton removeBtn;
-    private JFrame removeCarFrame;
+    private JComboBox carRegistrationBox;
+
+    private JFrame mainMenuFrame, removeCarFrame;
+    private JPanel labelComboBoxPanel, buttonsPanel;
 
     private CarPark carPark;
-    private Frame mainMenuFrame;
-    private JComboBox carRegistrationBox;
 
     public RemoveCarGUI(CarPark carPark, JFrame mainMenuFrame) {
         this.carPark = carPark;
@@ -27,13 +27,15 @@ public class RemoveCarGUI extends FrameSkeleton implements ActionListener {
     }
 
     void buildFrame() {
-        removeCarFrame = super.makeFrame("Park Car", 500, 300);
-        removeCarFrame.setLayout(null);
+        removeCarFrame = super.makeFrame("Remove Car", 500, 300);
 
-        //Initialize find button and set bounds
+        carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car To Be Removed");
+        String[] carRegistrations = carPark.retrieveCarRegistrations();
+        carRegistrationBox = new JComboBox(carRegistrations);
+        carRegistrationBox.setPreferredSize(new Dimension(100, 20));
+
+
         removeBtn = new JButton("Remove Car");
-        removeBtn.setBounds(250, 90, 80, 30);
-
         removeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,7 +55,6 @@ public class RemoveCarGUI extends FrameSkeleton implements ActionListener {
 
         });
 
-        cancelBtn.setBounds(380, 90, 80, 30);
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,21 +62,31 @@ public class RemoveCarGUI extends FrameSkeleton implements ActionListener {
                 removeCarFrame.dispose();
             }
         });
+        arrangeElementsIntoPanelsAndAddToFrame();
+        addPanelsToFrameAndSetVisible();
+    }
 
-        //Initialize label and set bounds
-        carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car");
-        carRegistrationLabel.setBounds(50, 50, 250, 50);
+    public void arrangeElementsIntoPanelsAndAddToFrame()  {
+        labelComboBoxPanel = new JPanel();
+        labelComboBoxPanel.setLayout(new FlowLayout());
+        labelComboBoxPanel.add(carRegistrationLabel);
+        labelComboBoxPanel.add(carRegistrationBox);
 
-        String[] carRegistrations = carPark.retrieveCarRegistrations();
-        carRegistrationBox = new JComboBox(carRegistrations);
-        carRegistrationBox.setBounds(50, 90, 80, 30);
+        buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout());
+        buttonsPanel.add(removeBtn);
+        buttonsPanel.add(cancelBtn);
 
-        removeCarFrame.add(carRegistrationBox);
-        //Add UI elements to frame
-        removeCarFrame.add(carRegistrationLabel);
-        removeCarFrame.add(removeBtn);
-        removeCarFrame.add(cancelBtn);
+        removeCarFrame.add(labelComboBoxPanel, BorderLayout.NORTH);
+        removeCarFrame.add(buttonsPanel, BorderLayout.SOUTH);
+    }
 
+    /**
+     * Adds the Panels to the Frame and sets the visibility of the Frame to true
+     */
+    public void addPanelsToFrameAndSetVisible()  {
+        removeCarFrame.add(labelComboBoxPanel, BorderLayout.NORTH);
+        removeCarFrame.add(buttonsPanel, BorderLayout.SOUTH);
         removeCarFrame.setVisible(true);
     }
 }
