@@ -5,6 +5,7 @@ import carpark.code.Car;
 import carpark.code.CarPark;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,11 +17,11 @@ public class ParkCarGUI extends FrameSkeleton implements ActionListener {
 
     private JComboBox parkingSlotBox;
     private JButton parkBtn;
-    private JLabel carOwnerNameLabel, carRegistrationLabel;
+    private JLabel carOwnerNameLabel, carRegistrationLabel, parkingSlotLabel, parkingSlotTypeLabel;
     private JTextField carOwnerNameFld, carRegistrationFld;
 
-    private JFrame parkCarFrame;
-    private JFrame mainMenuFrame;
+    private JFrame mainMenuFrame, parkCarFrame;
+    private JPanel buttonPanel, carOwnerPanel, carRegistrationPanel, parkCarPanel, parkingSlotPanel, staffVisitorPanel;
 
     private CarPark carPark;
 
@@ -34,10 +35,8 @@ public class ParkCarGUI extends FrameSkeleton implements ActionListener {
 
     void buildFrame() {
         parkCarFrame = super.makeFrame("Park Car", 500, 300);
-        parkCarFrame.setLayout(null);
 
-        parkBtn = new JButton("Create");
-
+        parkBtn = new JButton("Park");
         parkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +63,7 @@ public class ParkCarGUI extends FrameSkeleton implements ActionListener {
                 }
 
                 if (parkingSlotBox.getSelectedItem() == null) {
-                    JOptionPane.showMessageDialog(parkCarFrame, "Please select a parking slot id", "Error!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(parkCarFrame, "Please select a Parking Slot Id", "Error!", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -82,8 +81,6 @@ public class ParkCarGUI extends FrameSkeleton implements ActionListener {
         });
 
         //Setting buttons dimensions and position
-        parkBtn.setBounds(250, 200, 80, 30);
-        cancelBtn.setBounds(380, 200, 80, 30);
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,11 +91,7 @@ public class ParkCarGUI extends FrameSkeleton implements ActionListener {
 
         String[] parkingSlotIds = carPark.retrieveParkingSlotIdsByType("staff");
         parkingSlotBox = new JComboBox(parkingSlotIds);
-        parkingSlotBox.setBounds(380, 80, 80, 30);
-
-        staffVisitorGroup = new ButtonGroup();
-
-        JLabel parkingSlotTypeLabel = new JLabel("Staff/Visitor");
+        parkingSlotBox.setPreferredSize(new Dimension(100, 20));
 
         staffTypeRadioBtn = new JRadioButton("Staff", true);
         staffTypeRadioBtn.addActionListener(new ActionListener() {
@@ -118,38 +111,64 @@ public class ParkCarGUI extends FrameSkeleton implements ActionListener {
             }
         });
 
-        parkingSlotTypeLabel.setBounds(50, 10, 120, 50);
-
-        staffTypeRadioBtn.setBounds(250, 10, 120, 50);
-        visitorTypeRadioBtn.setBounds(380, 10, 80, 50);
-
-        carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car");
-        carRegistrationLabel.setBounds(50, 40, 250, 50);
-
-        carRegistrationFld = new JTextField();
-        carRegistrationFld.setBounds(50, 80, 80, 30);
-
-        carOwnerNameLabel = new JLabel("Enter Car Owner's Name");
-        carOwnerNameLabel.setBounds(50, 100, 250, 50);
-
-        carOwnerNameFld = new JTextField();
-        carOwnerNameFld.setBounds(50, 140, 80, 30);
-
-        parkCarFrame.add(parkingSlotBox);
-        parkCarFrame.add(carRegistrationLabel);
-        parkCarFrame.add(carRegistrationFld);
-        parkCarFrame.add(carOwnerNameLabel);
-        parkCarFrame.add(carOwnerNameFld);
-        parkCarFrame.add(parkBtn);
-        parkCarFrame.add(cancelBtn);
-        parkCarFrame.add(staffTypeRadioBtn);
-        parkCarFrame.add(visitorTypeRadioBtn);
-        parkCarFrame.add(parkingSlotTypeLabel);
-
-        //Adding radio buttons to group
+        staffVisitorGroup = new ButtonGroup();
         staffVisitorGroup.add(staffTypeRadioBtn);
         staffVisitorGroup.add(visitorTypeRadioBtn);
 
+        carRegistrationLabel = new JLabel("Enter Car Registration of Parked Car");
+
+        carRegistrationFld = new JTextField();
+        carRegistrationFld.setPreferredSize(new Dimension(100, 20));
+
+        parkingSlotLabel = new JLabel("Select Parking Slot");
+        parkingSlotTypeLabel = new JLabel("Staff/Visitor");
+
+        carOwnerNameLabel = new JLabel("Enter Car Owner's Name");
+
+        carOwnerNameFld = new JTextField();
+        carOwnerNameFld.setPreferredSize(new Dimension(100, 20));
+
+        arrangeElementsIntoPanelsAndAddToFrame();
+        addPanelsToFrameAndSetVisible();
+    }
+
+    public void arrangeElementsIntoPanelsAndAddToFrame() {
+        parkCarPanel = new JPanel();
+        parkCarPanel.setLayout(new BoxLayout(parkCarPanel, BoxLayout.PAGE_AXIS));
+
+        staffVisitorPanel = new JPanel();
+        staffVisitorPanel.add(parkingSlotTypeLabel);
+        staffVisitorPanel.add(staffTypeRadioBtn);
+        staffVisitorPanel.add(visitorTypeRadioBtn);
+        parkCarPanel.add(staffVisitorPanel);
+
+        parkingSlotPanel = new JPanel();
+        parkingSlotPanel.setLayout(new FlowLayout());
+        parkingSlotPanel.add(parkingSlotLabel);
+        parkingSlotPanel.add(parkingSlotBox);
+        parkCarPanel.add(parkingSlotPanel);
+
+        carOwnerPanel = new JPanel();
+        carOwnerPanel.setLayout(new FlowLayout());
+        carOwnerPanel.add(carOwnerNameLabel);
+        carOwnerPanel.add(carOwnerNameFld);
+        parkCarPanel.add(carOwnerPanel);
+
+        carRegistrationPanel = new JPanel();
+        carRegistrationPanel.setLayout(new FlowLayout());
+        carRegistrationPanel.add(carRegistrationLabel);
+        carRegistrationPanel.add(carRegistrationFld);
+        parkCarPanel.add(carRegistrationPanel);
+
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(parkBtn);
+        buttonPanel.add(cancelBtn);
+    }
+
+    public void addPanelsToFrameAndSetVisible() {
+        parkCarFrame.add(parkCarPanel, BorderLayout.PAGE_START);
+        parkCarFrame.add(buttonPanel, BorderLayout.PAGE_END);
         parkCarFrame.setVisible(true);
     }
 }

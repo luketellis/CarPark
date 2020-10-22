@@ -31,7 +31,7 @@ public class FindCarGUI extends FrameSkeleton implements ActionListener {
     void buildFrame() {
         findCarFrame = super.makeFrame("Find Parked Car", 500, 300);
 
-        findCarLabel = new JLabel("Select Car Registration of Parked Car");
+        findCarLabel = new JLabel("Select Car Registration of Parked Car To Search For");
         findBtn = new JButton("Find Car");
 
         String[] carRegistrations = carPark.retrieveCarRegistrations();

@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 
 public class StartMenuGUI extends FrameSkeleton implements ActionListener {
-    private JLabel staffLabel, visitorLabel;
+    private JLabel headingLabel, staffLabel, visitorLabel;
     private JTextField staffParksFld, visitorsParksFld;
     private JButton startBtn;
 
@@ -27,9 +27,10 @@ public class StartMenuGUI extends FrameSkeleton implements ActionListener {
         emptyPanel = new JPanel();
         fieldsPanel = new JPanel();
 
-        staffLabel = new JLabel("Staff");
+        headingLabel = new JLabel("Enter Starting Parking Slots For System");
+        staffLabel = new JLabel("Staff Parking Slots");
         staffParksFld = new JTextField("1");
-        visitorLabel = new JLabel("Visitors");
+        visitorLabel = new JLabel("Visitor Parking Slots");
         visitorsParksFld = new JTextField("1");
         startBtn = new JButton("Create Car Park");
 
@@ -52,6 +53,8 @@ public class StartMenuGUI extends FrameSkeleton implements ActionListener {
 
     public void arrangeElementsIntoPanelsAndAddToFrame()  {
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.PAGE_AXIS));
+        fieldsPanel.add(headingLabel);
+        fieldsPanel.add(emptyPanel);
         fieldsPanel.add(staffLabel);
         fieldsPanel.add(staffParksFld);
         fieldsPanel.add(visitorLabel);
@@ -67,7 +70,6 @@ public class StartMenuGUI extends FrameSkeleton implements ActionListener {
      */
     public void addPanelsToFrameAndSetVisible()  {
         startMenuFrame.add(fieldsPanel, BorderLayout.PAGE_START);
-        startMenuFrame.add(emptyPanel, BorderLayout.CENTER);
         startMenuFrame.add(buttonsPanel, BorderLayout.PAGE_END);
         startMenuFrame.setVisible(true);
     }

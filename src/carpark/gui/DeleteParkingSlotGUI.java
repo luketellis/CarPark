@@ -40,7 +40,7 @@ public class DeleteParkingSlotGUI extends FrameSkeleton implements ActionListene
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (parkingSlotBox.getSelectedItem() == null) {
-                    JOptionPane.showMessageDialog(deleteParkingSlotFrame, "Please select a parking slot id");
+                    JOptionPane.showMessageDialog(deleteParkingSlotFrame, "Please select a Parking Slot Id");
                     return;
                 }
 

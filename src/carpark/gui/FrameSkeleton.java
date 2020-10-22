@@ -8,10 +8,6 @@ import java.awt.event.ActionListener;
 public abstract class FrameSkeleton {
     JButton cancelBtn, exitBtn;
 
-
-    public FrameSkeleton() {
-    }
-
     public JFrame makeFrame(String title, int width, int height) {
         JFrame frame = new JFrame(title);
         frame.setSize(width, height);
